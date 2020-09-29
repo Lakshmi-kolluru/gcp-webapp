@@ -1,0 +1,20 @@
+
+@media screen and (max-width: 768px) {
+.page-sidebar{
+    display: none !important;
+}
+.page-body{
+    padding-right:0 !important;
+    padding-left:0 !important;
+}
+}
+
+@media screen and (max-width: 1024) and (min-width: 768px) {
+.page-body{
+    padding-right:0 ;
+}
+}
+
+.page-wrapper .page-body-wrapper .page-sidebar ~ .page-body{
+    margin-right:25px;
+}

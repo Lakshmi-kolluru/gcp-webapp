@@ -1,0 +1,98 @@
+.maxheight {
+  max-height: 13rem;
+  overflow: auto;
+}
+
+.warnmessage {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: orangered;
+}
+
+.accesslevel {
+  color: white;
+  background-color: #0072be !important;
+  font-size: 12px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.textbold {
+  font-weight: 600;
+}
+
+.border {
+  background-color: #e9ecef;
+  box-sizing: content-box;
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.comment-box {
+  padding-top: 0px !important;
+  padding-bottom: 20px !important;
+  li {
+    margin-bottom: 0px !important;
+  }
+  .media {
+    h6 {
+      margin-bottom: 15px !important;
+    }
+  }
+}
+
+.commentcss {
+  background-color: rgb(255, 225, 104) !important;
+  opacity: 0.5;
+  z-index: 1;
+  position: absolute;
+  cursor: pointer;
+}
+
+.pad {
+  padding: 0px !important;
+  overflow: auto;
+}
+
+.posunset {
+  position: unset !important;
+}
+
+.border1 {
+  border: 2px solid #0072be !important;
+  border-radius: 0.5rem;
+}
+
+.commenticon {
+  position: absolute;
+  min-height: 100px;
+  z-index: 1;
+  overflow: hidden;
+  width: 100%;
+  // margin-right: 7px;
+  .iconcss {
+    background-color: white;
+  }
+  .iconstyle {
+    padding: 2px;
+    position: relative;
+    transform: rotate(90deg);
+  }
+  .newcomment {
+    border: 1px solid #ced4da;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    background-color: white;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    width: 95% !important;
+  }
+}
+
+.switch {
+  display: block;
+}

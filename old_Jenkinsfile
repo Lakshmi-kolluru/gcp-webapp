@@ -1,0 +1,61 @@
+#!groovy
+
+node {
+
+  // stage('Clean Workspace') {
+  //     deleteDir()
+  // }
+  
+  // stage('Checkout'){
+  //           checkout scm
+  // }
+  
+
+
+  // stage('Unit Tests') {
+  //     def nodeHome = tool name: 'nodejs', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+  //     env.PATH = "${nodeHome}/bin:${env.PATH}"
+  //     sh "npm install"
+  //     sh "npm test"
+  // }
+
+  stage('Build Docker Image') {
+      timeout(time: 40, unit: 'MINUTES') {
+          openshiftBuild(buildConfig: 'vesta-ui' , waitTime: "3600000", showBuildLogs: "true", verbose: "true")
+        }
+    }  
+  stage('Deploy on Development Namespace') {
+      openshiftDeploy depCfg: 'vesta-ui'
+ //     openshiftVerifyDeployment depCfg: 'vesta-ui', replicaCount: 1, verifyReplicaCount: true
+  }
+     
+  stage('Verify Deployment') {
+  //    openshiftVerifyDeployment depCfg: 'vesta-ui', replicaCount: 1, verifyReplicaCount: true
+      openshiftVerifyDeployment depCfg: 'vesta-ui', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+  }
+
+//  stage('Curl Test on port tcp/4200' - wait 10 minutes to start) {
+//      sleep 600
+//      sh "curl -s http://vesta-ui:4200"
+//     }
+}
+
+
+
+
+
+// parallel test
+//   stage('Test & Analyse') {
+//       parallel(
+//         Unit Tests: {
+//         def nodeHome = tool name: 'nodejs', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+//         env.PATH = "${nodeHome}/bin:${env.PATH}"
+//         sh "npm install"
+//         sh "npm test"
+//       },
+//         SonarQube Analysis: {
+//         def sonarqubeScannerHome = tool name: 'sonarqube';
+//         sh "${sonarqubeScannerHome}/bin/sonar-scanner  -Dsonar.host.url=http:sonarqube-development.accesshost.internal -Dsonar.projectKey=key -Dsonar.projectName=dev -Dsonar.sources=."
+//       }
+//     )
+// }    

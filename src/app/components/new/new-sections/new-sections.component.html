@@ -1,0 +1,202 @@
+<!-- Container starts -->
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/mainPage"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">New</li>
+                    <li class="breadcrumb-item active">Sections</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container Ends -->
+<!-- Container starts -->
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                Create New Section
+            </h5>
+        </div>
+        <div class="card-body">
+            <form class="theme-form needs-validation" novalidate [formGroup]="validationForm">
+                <div formArrayName="sections">
+                    <div *ngFor="
+              let item of sectionListArray.controls;
+              let i = index;
+              let last = last
+            " [formGroupName]="i">
+                        <div *ngIf="i != 0">
+                            <br /><br /><br />
+                            <hr />
+                            <br /><br />
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label pt-0">Title <sup class="txt-danger">*</sup></label
+                  >
+                  <input
+                    type="sectionTitle"
+                    class="form-control"
+                    required
+                    id="validationCustom01"
+                    formControlName="sectionTitle"
+                  />
+                  <div
+                    *ngIf="
+                      sectionListArray.controls[i].get('sectionTitle')
+                        .touched &&
+                      sectionListArray.controls[i].get('sectionTitle').errors
+                        ?.required
+                    "
+                    class="text text-danger"
+                  >
+                    Title is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      sectionListArray.controls[i].get('sectionTitle')
+                        .touched &&
+                      sectionListArray.controls[i].get('sectionTitle').errors
+                        ?.pattern
+                    "
+                    class="text text-danger"
+                  >
+                    Title must contain only numbers and letters
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect9"
+                    >Security Level <sup class="txt-danger">*</sup></label
+                  >
+                  <select
+                    class="form-control digits"
+                    id="exampleFormControlSelect9"
+                    formControlName="securityLevel"
+                  >
+                    <option>Select Security level</option>
+                    <option *ngFor="let level of securityLevels">{{
+                      level.name
+                    }}</option></select
+                  >
+                  <div
+                    *ngIf="
+                      sectionListArray.controls[i].get('securityLevel')
+                        .touched &&
+                      sectionListArray.controls[i].get('securityLevel').errors
+                        ?.required
+                    "
+                    class="text text-danger"
+                  >
+                    Security Level cannot be empty.
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2" style="padding-left: 3%;">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect9"
+                    >Visibility <sup class="txt-danger">*</sup></label
+                  ><br />
+                  <label class="switch">
+                    <span class="toggle-label" style="width: 50%; float: left;"
+                      ><p *ngIf="sectionListArray.value[i].private">Private</p>
+                      <p *ngIf="!sectionListArray.value[i].private">Public</p>
+                    </span>
+                    <div
+                      class="toggle-box custom-switches"
+                      style="width: 50%; float: right;"
+                    >
+                      <ui-switch
+                        id="visible[i]"
+                        (valueChange)="onValueChange($event, i)"
+                        [(ngModel)]="sectionListArray.value[i].private"
+                        [formControl]="
+                          sectionListArray.controls[i].get('private')
+                        "
+                      ></ui-switch>
+                    </div>
+                  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-1" *ngIf="!sectionListArray.value[i].private">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect9"></label
+                  ><a
+                    class="nav-link quickview-box-toggle"
+                    id="recent-activity-tab"
+                     style="padding: 25%; padding-top:15% !important;margin-left:10% !important; "
+              
+                    (click)="addCollabtoSections(i)"
+                  >
+                    <i class="m-0"
+                      ><img
+                        _ngcontent-eym-c8=""
+                        alt="Manage Collaborators"
+                        height="21px"
+                        src="../../../../assets/fonts/user-add.png"
+                        style="cursor: pointer;"
+                        title="Add Collaborators"
+                        width="21px"
+                      />
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <!-- <ckeditor data="<p>Hello, world!</p>"></ckeditor> -->
+              <ckeditor
+                [config]="editorConfig"
+                [editor]="Editor"
+                formControlName="sectionContent"
+              ></ckeditor>
+              <div
+                *ngIf="
+                  sectionListArray.controls[i].get('sectionContent').touched &&
+                  sectionListArray.controls[i].get('sectionContent').errors
+                    ?.required
+                "
+                class="text text-danger"
+              >
+                Content is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group form-row mt-3 mb-0">
+          <div class="col-md-12" style="display: inline;">
+            <button
+              class="btn btn-primary doc-button"
+              [disabled]="!sectionListArray.valid"
+              (click)="onSubmit()"
+            >
+              Create
+            </button>
+            <button
+              class="btn btn-primary doc-button"
+              [disabled]="!sectionListArray.valid"
+              (click)="saveAsTemplate()"
+            >
+              Save as Template
+            </button>
+            <button
+              class="btn btn-outline-primary doc-button"
+              (click)="addNewSection()"
+            >
+              Add More Sections
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

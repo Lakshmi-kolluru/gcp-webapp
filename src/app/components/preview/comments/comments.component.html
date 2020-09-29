@@ -1,0 +1,94 @@
+<div *ngIf="!comment.hide" [style.top.px]='comment.top' class="commenticon" [ngClass]="{'posunset' :comment.oldComment, 'border1': comment.clicked}">
+    <!-- comment icon to open comment box -->
+
+
+    <!-- Adding a New Comment -->
+    <ng-container>
+        <div class="newcomment mb-1">
+            <form #recentActivityForm="ngForm">
+                <div class="bugoflowh">
+                    <!-- Commenter Name -->
+                    <span *ngIf="!comment?.commented_user.id" (click)="comment.hideReply = !comment.hideReply">
+                        {{profile?.first_name}}&nbsp;{{profile?.last_name}}
+                    </span>
+
+                    <span *ngIf="comment?.commented_user.id" (click)="comment.hideReply = !comment.hideReply">
+                        {{comment?.commented_user?.first_name}}&nbsp;{{comment?.commented_user?.last_name}}
+                    </span>
+
+                    <!-- Menus -->
+                    <i class="icon-more-alt pull-right iconstyle" *ngIf="comment.oldComment" [matMenuTriggerFor]="menu"></i>
+
+                    <!-- Resolve Button -->
+                    <!-- <button class="btn btn-xs btn-outline-primary document-buttonsml-1 m-1 pull-right"
+                        *ngIf="comment.oldComment" type="button">
+                        Resolve</button> -->
+
+                    <!-- List of Menus Starts -->
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="comment.edit=true;">
+                            <i class="fa fa-pencil txt-primary"></i>&nbsp;&nbsp;
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteComment(comment)">
+                            <i class="fa fa-trash txt-primary" title="Delete"></i>&nbsp;&nbsp;
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                    <!-- List of Menus Ends -->
+                </div>
+
+                <div class="mt-1 bugoflowh" style="cursor: pointer;font-size:11px" *ngIf="comment.oldComment" (click)="comment.hideReply = !comment.hideReply">
+                    <i class="icofont icofont-clock-time p-r-5"></i> {{comment?.createdAt | date: "short":"locale"}}
+                </div>
+
+                <!-- Comments -->
+                <div>
+                    <textarea type="text" class="form-control mt-2 mb-2" name="comment[{{index}}]" rows="2" style="font-size: 12px;" [(ngModel)]="comment.comment_content" required [readonly]="comment.oldComment && !comment.edit">
+                    </textarea>
+                </div>
+
+                <!-- Add Comment Buttons -->
+                <div>
+                    <button class="btn btn-primary btn-xs document-buttonsml-1 m-1" type="button" (click)="editComment(comment)" *ngIf="comment.edit">Update</button>
+                    <button class="btn btn-primary btn-xs document-buttonsml-1 m-1" type="button" (click)="addComment(comment)" *ngIf="!comment.oldComment">Comment</button>
+                    <button class="btn btn-outline-primary btn-xs document-buttons m-1" type="button" (click)="closeComment(comment)" *ngIf="!comment.oldComment || comment.edit">Close</button>
+                </div>
+
+                <div *ngIf="comment?.oldComment && !comment?.hideReply">
+                    <span class="txt-primary" (click)="comment.hideReply = !comment.hideReply" style="cursor: pointer;">
+                        Replies&nbsp;</span> {{comment?.reply_list?.length}}
+                </div>
+
+                <!-- Reply Comment -->
+                <div *ngIf="comment?.oldComment && comment?.hideReply">
+                    <hr>
+                    <textarea type="text" class="form-control mt-1 mb-3" style="font-size: 12px;" name="comment" [(ngModel)]="comment.reply" rows="2" required></textarea>
+
+                    <button class="btn btn-primary btn-xs document-buttonsml-1 m-1" type="button" (click)="replyComment(comment);comment.reply=null; comment.hideReply = !comment.hideReply">Reply</button>
+                    <button class="btn btn-outline-primary btn-xs document-buttons m-1" type="button" (click)="comment.hideReply=false;comment.reply=null;">Close</button>
+                    <hr>
+
+                    <div class="maxheight">
+                        <span *ngFor="let reply of comment.reply_list">
+                            <div style="font-weight: bold;">
+                                <div class="bugoflowh" *ngIf="!comment?.reply_user?.first_name">
+                                    {{profile?.first_name}}&nbsp;{{profile?.last_name}}
+                                </div>
+                                <div class="bugoflowh" *ngIf="comment?.reply_user?.first_name">
+                                    {{comment?.reply_user?.first_name}}&nbsp;{{comment?.reply_user?.last_name}}
+                                </div>
+                                <div class="bugoflowh" style="font-size:11px;">
+                                    <i class="icofont icofont-clock-time p-r-5"></i>
+                                    {{reply.createdAt | date: "short":"locale"}}
+                                </div>
+                            </div>
+                            <p class="mt-1">{{reply.reply_content}}</p>
+                            <hr>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</div>

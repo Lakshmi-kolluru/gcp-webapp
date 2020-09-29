@@ -1,0 +1,64 @@
+<div class="container" *ngIf="!action">
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                {{ docname ? docname : title }}
+                <button type="button" class="close" (click)="closeModel()">
+          <span>&times;</span>
+        </button>
+            </h5>
+        </div>
+        <div class="card-body">
+            <form class="theme-form needs-validation" novalidate [formGroup]="validationForm" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="col-form-label pt-0">Share with Others <sup class="txt-danger">*</sup></label
+              >
+              <tag-input
+                [theme]="'bootstrap'"
+                [separatorKeyCodes]="[32, 188]"
+                [addOnPaste]="true"
+                [pasteSplitPattern]="','"
+                [validators]="validators"
+                [addOnBlur]="true"
+                [formControl]="validationForm.controls['collabMail']"
+                (onRemove)="removeEmail($event)"
+                (onAdd)="emailCheck($event)"
+              >
+              </tag-input>
+              <div
+                class="text-danger"
+                style="position: absolute;"
+                *ngIf="duplicateEmail"
+              >
+                Duplicate email found.
+              </div>
+              <div
+                *ngIf="
+                  (validationForm.controls.collabMail.touched || submitForm) &&
+                  validationForm.controls.collabMail.errors?.required
+                "
+                class="text text-danger"
+              >
+                EmailID is required.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn-primary btn pull-right"
+                style="margin-top: 17%;"
+                [disabled]="!validationForm.valid"
+              >
+                <span>Share </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

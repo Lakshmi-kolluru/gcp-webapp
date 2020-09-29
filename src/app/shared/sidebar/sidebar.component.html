@@ -1,0 +1,122 @@
+<div class="sidebar custom-scrollbar">
+    <div class="sidebar-user text-center">
+        <div>
+            <h4 class="mt-3 f-14 user_details" *ngIf="profile">
+                {{ profile.first_name }} {{ profile.last_name }}
+                <span>{{ profile.email_id }}</span>
+            </h4>
+        </div>
+    </div>
+    <ul class="sidebar-menu">
+        <li [ngClass]="{ active: expandNew === true }">
+            <a (click)="expand()" class="sidebar-header" href="javascript:void(0)"><i class="icon-plus"></i><span>New </span
+        ><i class="fa fa-angle-right pull-right"></i
+      ></a>
+            <ul class="sidebar-submenu menu-close" *ngIf="expandNew">
+                <li>
+                    <a routerlinkactive="active" routerLink="new/document"><i class="fa fa-angle-right"></i><span>Documents </span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="new/section"
+            ><i class="fa fa-angle-right"></i><span>Sections </span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active"
+            ><i class="fa fa-angle-right"></i
+            ><span
+              >Smart Contracts
+              <sup class="badge badge-danger pull-right">Coming Soon</sup>
+            </span></a
+          >
+        </li>
+      </ul>
+    </li>
+    <li [ngClass]="{ active: expandDocDropDown === true }">
+      <a (click)="expandDoc()" class="sidebar-header" href="javascript:void(0)"
+        ><i class="icon-briefcase"></i><span>Workspace</span
+        ><i class="fa fa-angle-right pull-right"></i
+      ></a>
+                    <ul class="sidebar-submenu menu-close" *ngIf="expandDocDropDown">
+                        <li>
+                            <a routerlinkactive="active" routerLink="documents/created"><i class="fa fa-angle-right"></i><span>Created by me</span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="documents/collaborate"
+            ><i class="fa fa-angle-right"></i><span>Shared with me</span></a
+          >
+        </li>
+      </ul>
+    </li>
+    <li [ngClass]="{ active: expandTempDropDown === true }">
+      <a (click)="expandTemp()" class="sidebar-header" href="javascript:void(0)"
+        ><i class="icon-bookmark"></i><span>Templates</span
+        ><i class="fa fa-angle-right pull-right"></i
+      ></a>
+                            <ul class="sidebar-submenu menu-close" *ngIf="expandTempDropDown">
+                                <li>
+                                    <a routerlinkactive="active" routerLink="templates/created"><i class="fa fa-angle-right"></i><span>Created</span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="templates/collaborate"
+            ><i class="fa fa-angle-right"></i><span>Shared with me</span></a
+          >
+        </li>
+      </ul>
+    </li>
+    <!-- <li>
+      <a
+        class="sidebar-header"
+        href="javascript:void(0)"
+        routerLink="templates/created"
+        ><i class="icon-bookmark"></i><span>Templates</span></a
+      >
+    </li> -->
+    <li>
+      <a class="sidebar-header" href="javascript:void(0)" routerLink="help"
+        ><i class="icon-help-alt"></i><span>Help</span></a
+      >
+    </li>
+    <li [ngClass]="{ active: expandActiveDropDown === true }">
+      <a
+        (click)="expandActive()"
+        class="sidebar-header"
+        href="javascript:void(0)"
+        ><i class="icon-user"></i><span>Account</span
+        ><i class="fa fa-angle-right pull-right"></i
+      ></a>
+                                    <ul class="sidebar-submenu" *ngIf="expandActiveDropDown">
+                                        <li>
+                                            <a routerlinkactive="active" routerLink="profile/view"><i class="fa fa-angle-right"></i><span>Profile </span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="profile/notifications"
+            ><i class="fa fa-angle-right"></i><span>Inbox</span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="profile/history"
+            ><i class="fa fa-angle-right"></i><span>History </span></a
+          >
+        </li>
+        <li>
+          <a routerlinkactive="active" routerLink="profile/settings"
+            ><i class="fa fa-angle-right"></i><span>Settings </span></a
+          >
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a
+        class="sidebar-header"
+        href="https://www.surveymonkey.com/r/LD2QNLC"
+        target="_blank"
+        ><i class="icon-comment-alt"></i><span>Feedback</span></a
+      >
+    </li>
+  </ul>
+</div>

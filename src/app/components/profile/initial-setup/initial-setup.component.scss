@@ -1,0 +1,25 @@
+.preview-card {
+  margin-bottom: 0;
+}
+
+.pricing-wrapper-card {
+  padding: 1% !important;
+}
+
+.card-price {
+  margin: 1% !important;
+}
+
+.pricing-wrapper-card .card-action button {
+  padding: 0;
+}
+
+.pricing-wrapper-card .pricing-card .card-price h1,
+.pricing-wrapper-card .pricing-card.popular .card-price h1 {
+  font-size: 5em;
+}
+
+.alert-info {
+  background-color: rgba(0, 114, 190, 0.1) !important;
+  border-color: rgba(0, 114, 190, 0.1) !important;
+}

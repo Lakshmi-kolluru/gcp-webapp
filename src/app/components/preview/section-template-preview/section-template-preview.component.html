@@ -1,0 +1,227 @@
+<app-component-loader *ngIf="!singleSectionData"></app-component-loader>
+
+<!-- Container-fluid Starts -->
+<div class="container-fluid" id="pageStarts" *ngIf="singleSectionData">
+  <!-- Page Header Starts -->
+  <div class="page-header col-lg-10 col-md-10 col-xs-12 col-sm-12">
+    <div class="row">
+      <div class="col-lg-5">
+        <ol class="breadcrumb pull-left">
+          <li class="breadcrumb-item">
+            <a routerLink="/mainPage"><i class="fa fa-home"></i></a>
+          </li>
+          <li class="breadcrumb-item">Templates</li>
+          <li class="breadcrumb-item">Sections</li>
+          <li class="breadcrumb-item active">Preview</li>
+        </ol>
+        <h3>&nbsp;</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Header Ends -->
+
+  <div class="row">
+    <!-- Section Starts -->
+    <div class="col-lg-12 col-md-10 col-xs-12 col-sm-12" id="pageStart2">
+      <form [formGroup]="sectionForm">
+        <div class="card">
+          <div class="page-header card-header" id="card-headerr">
+            <div class="row">
+              <div class="col-md-8">
+                <h3>
+                  {{ singleSectionData?.template_title }}
+                  <sup
+                    *ngIf="singleSectionData.template_owner.id == loginUserId"
+                    style="top: -1 rem"
+                  >
+                    <i
+                      class="icon-pencil-alt txt-primary m-2"
+                      style="cursor: pointer; font-size: 16px"
+                      *ngIf="!isEditable"
+                      title="Edit"
+                      (click)="isEditable = true; editTitle = true"
+                    ></i>
+                  </sup>
+                </h3>
+              </div>
+              <div class="col-md">
+                <a (click)="back()" class="btn-link pull-right">
+                  <i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body" id="content-body">
+            <div class="row">
+              <!-- Section Title -->
+              <div class="col-md-6 mb-3">
+                <label for="title" class="textbold">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  [formControl]="sectionForm.controls['template_title']"
+                  [readonly]="!isEditable || !editTitle"
+                />
+              </div>
+              <!-- Security -->
+              <div
+                class="col-md-3 mb-3"
+                *ngIf="singleSectionData?.template_security_level"
+              >
+                <label for="template_security_level" class="textbold"
+                  >Security</label
+                >
+                <select
+                  class="form-control digits"
+                  id="exampleFormControlSelect9"
+                  [formControl]="
+                    sectionForm.controls['template_security_level']
+                  "
+                  *ngIf="isEditable && editTitle"
+                >
+                  <option>Select Security level</option>
+                  <option *ngFor="let level of securityLevels">
+                    {{ level.name }}
+                  </option>
+                </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Security"
+                  [formControl]="
+                    sectionForm.controls['template_security_level']
+                  "
+                  readonly
+                  *ngIf="!isEditable || !editTitle"
+                />
+              </div>
+              <!-- Visiblity -->
+              <div class="col-md-3 mb-4">
+                <label for="visiblity" class="textbold">Visiblity</label>
+                <div class="border" *ngIf="!isEditable || !editTitle">
+                  <div class="custom-control custom-switch">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      [checked]="
+                        sectionForm.controls['template_isPrivate'].value
+                      "
+                      disabled
+                    />
+                    <label class="custom-control-label" for="customSwitches">{{
+                      singleSectionData && singleSectionData.template_isPrivate
+                        ? "Private"
+                        : "Public"
+                    }}</label>
+                  </div>
+                </div>
+                <label class="switch" *ngIf="isEditable && editTitle">
+                  <span class="toggle-label" style="width: 50%; float: left"
+                    ><p *ngIf="sectionForm.value.template_isPrivate">Private</p>
+                    <p *ngIf="!sectionForm.value.template_isPrivate">Public</p>
+                  </span>
+                  <div
+                    class="toggle-box custom-switches"
+                    style="width: 50%; float: right"
+                  >
+                    <ui-switch
+                      id="visible"
+                      [(ngModel)]="sectionForm.value.template_isPrivate"
+                      [formControl]="sectionForm.controls['template_isPrivate']"
+                    ></ui-switch>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <!-- Collaborators list -->
+
+            <div class="row mb-2">
+              <div class="col-md-12">
+                <span
+                  class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400"
+                  *ngFor="let collaborator of singleSectionData?.shared_users"
+                >
+                  <span *ngIf="collaborator?.first_name">
+                    {{ collaborator?.first_name }}&nbsp;&nbsp;{{
+                      collaborator?.last_name
+                    }}
+                  </span>
+                </span>
+                <span
+                  class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400"
+                  *ngFor="
+                    let collaborator of singleSectionData?.unregisteredUsers
+                  "
+                >
+                  <span>
+                    {{ collaborator }}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <!-- Content -->
+            <div class="row">
+              <div class="col-md-12">
+                <h6 class="my-0 mb-3 textbold">
+                  <span>Content</span>
+                  <span
+                    *ngIf="singleSectionData.template_owner.id != loginUserId"
+                  >
+                    <i
+                      class="icon-pencil-alt txt-primary m-2"
+                      style="cursor: pointer; font-size: 14px; float: right"
+                      *ngIf="!isEditable"
+                      title="Edit"
+                      (click)="isEditable = true; editTitle = false"
+                    ></i>
+                  </span>
+                </h6>
+              </div>
+
+              <div class="col-md-12 mr-3 mb-4">
+                <span
+                  *ngIf="!isEditable"
+                  [innerHtml]="singleSectionData?.template_content"
+                >
+                </span>
+                <ckeditor
+                  *ngIf="isEditable"
+                  [config]="editorConfig"
+                  [formControl]="sectionForm.controls['template_content']"
+                  [editor]="Editor"
+                >
+                </ckeditor>
+              </div>
+
+              <!-- Approve/Reject/Update Button -->
+              <div class="mb-1 col-md-12">
+                <button
+                  class="btn btn-primary btn-sm pull-right m-1"
+                  type="button"
+                  *ngIf="isEditable"
+                  (click)="isEditable = false"
+                >
+                  Reset
+                </button>
+
+                <button
+                  class="btn btn-primary btn-sm pull-right m-1"
+                  type="button"
+                  *ngIf="isEditable"
+                  (click)="updateSection(sectionForm)"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Section Ends -->
+  </div>
+</div>
+<!-- Container-fluid Ends  -->

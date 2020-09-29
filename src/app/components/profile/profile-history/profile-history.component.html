@@ -1,0 +1,65 @@
+<app-component-loader *ngIf="isLoading"></app-component-loader>
+
+<!-- Container starts -->
+<div class="container" *ngIf="!isLoading">
+  <div class="page-header">
+    <div class="row">
+
+      <div class="col-lg-6">
+        <ol class="breadcrumb pull-left">
+          <li class="breadcrumb-item">
+            <a [routerLink]="'/mainPage'"><i class="fa fa-home"></i></a>
+          </li>
+          <li class="breadcrumb-item">Profile</li>
+          <li class="breadcrumb-item active">History</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container Ends -->
+<!-- Container starts -->
+<div class="container" *ngIf="!isLoading">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card" *ngIf="auditLog && !auditLog.length">
+        <div class="card-header" style="text-align: center; color:rgba(255, 83, 112, 0.9)">
+          No Profile History Found
+        </div>
+      </div>
+      <div class="card" *ngIf="auditLog && auditLog.length">
+        <div class="card-header">
+          <h5>Your Progress</h5>
+        </div>
+        <div class="card-body">
+          <!-- cd-timeline Start -->
+          <section id="cd-timeline" class="cd-container">
+            <div class="cd-timeline-block" *ngFor="let hist of auditLog">
+              <div class="cd-timeline-img cd-picture bg-primary">
+                <i *ngIf="hist?.action === 'edit'" class="icon-pencil"></i>
+                <i *ngIf="hist?.action === 'comment'" class="icon-comments"></i>
+                <i *ngIf="hist?.action === 'view'" class="icon-eye"></i>
+                <i *ngIf="hist?.action === 'collab_add' || hist?.action === 'collab_delete' || hist?.action === 'collab_update'" class="icon-user"></i>
+                <i *ngIf="hist?.action === 'create'" class="icon-plus"></i>
+                <i *ngIf="hist?.action === 'payment'" class="icon-credit-card"></i>
+                <i *ngIf="hist?.action === 'accept'" class="icon-check"></i>
+                <i *ngIf="hist?.action === 'reject'" class="icon-close"></i>
+                <i *ngIf="hist?.action === 'delete' || !hist?.action" class="icon-trash"></i>
+              </div>
+              <div class="cd-timeline-content">
+                <h5>{{hist?.title}}<span class="digits"> </span></h5>
+                <p class="m-0">
+                  {{hist?.description}}
+                </p>
+                <span class="cd-date">{{hist?.createdAt | date: "short"}}</span>
+              </div>
+            </div>
+
+          </section>
+          <!-- cd-timeline Ends -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container Ends -->

@@ -1,0 +1,46 @@
+<div class="card preview-card" [hidden]="selectionDiv">
+  <div class="card-header"></div>
+  <div class="card-body">
+      <div class="form-group">
+        <label for="exampleFormControlSelect9">Select from Template <sup class="txt-danger">*</sup></label>
+
+        <ng-multiselect-dropdown
+          name="selectedSections"
+          [placeholder]="'Select Sections'"
+          [settings]="dropdownSettings"
+          [data]="sections"
+          (onSelect)="onItemSelect($event)"
+          (onDeSelect)="onItemDeselect($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="form-group" >
+        <button class="btn btn-primary section-button" (click)="openSectionPreview()">
+          Preview
+        </button>
+      </div>
+  </div>
+</div>
+<div class="card preview-card" [hidden]="previewDiv">
+  <div class="card-header">
+    <h5>
+      <a (click)="closeSectionPreview()" class="btn-link pull-right"
+        ><i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a
+      >
+    </h5>
+  </div>
+  <div class="card-body overflow-auto" style="max-height: 500px;">
+    <div *ngFor="let item of selectedItems">
+      <h3>{{ item.template_title }}</h3>
+      <br /><br />
+     
+      <div [innerHtml]="item.template_content"></div>
+      <br><br>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary section-button" (click)="useTemplate()">
+      Use Template
+    </button>
+  </div>
+</div>

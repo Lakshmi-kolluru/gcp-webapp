@@ -1,0 +1,44 @@
+.nav-material.nav-tabs {
+    display: inline;
+}
+
+.nav-material.nav-tabs .nav-item .nav-link {
+    padding: 10px 0;
+}
+
+.buttons-card {
+    padding: 1% 0;
+    width: 50px;
+    display: hidden;
+}
+
+.icon-lists li {
+    display: inline-block;
+    margin: 2%;
+}
+
+.viewport {
+    width: 100%;
+    height: 100%;
+    padding: 12% 2%;
+}
+
+.buttons-card {
+    position: fixed;
+    bottom: 10%;
+}
+
+.highlight {
+    box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: rgba(3, 123, 254, 0.3);
+    background-clip: border-box;
+    border-radius: 0.25rem;
+}

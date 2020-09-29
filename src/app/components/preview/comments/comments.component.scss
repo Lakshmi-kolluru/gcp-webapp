@@ -1,0 +1,71 @@
+.bugoflowh {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.comment-box {
+  padding-top: 0px !important;
+  padding-bottom: 20px !important;
+  li {
+    margin-bottom: 0px !important;
+  }
+  .media {
+    h6 {
+      margin-bottom: 15px !important;
+    }
+  }
+}
+
+.pad {
+  padding: 0px !important;
+  overflow: auto;
+}
+
+.border1 {
+  border: 2px solid #0072be !important;
+  border-radius: 0.5rem;
+}
+
+.commenticon {
+  position: absolute;
+  min-height: 100px;
+  z-index: 1;
+  overflow: hidden;
+  width: 100%;
+  .iconcss {
+    background-color: white;
+  }
+  .iconstyle {
+    padding: 2px;
+    position: relative;
+    transform: rotate(90deg);
+  }
+  .newcomment {
+    border: 1px solid #ced4da;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    background-color: white;
+  }
+}
+
+.styles {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.posunset {
+  // display: flex;
+  // flex-direction: column;
+  // position: relative !important;
+  position: unset !important;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    width: 95% !important;
+  }
+}

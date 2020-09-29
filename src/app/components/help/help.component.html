@@ -1,0 +1,189 @@
+<!-- Container starts -->
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+
+            <div class="col-lg-6">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="'/mainPage'"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active">Help</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container Ends -->
+
+<!-- Main Help Page starts here -->
+
+<div class="container" [hidden]="mainPagediv">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>
+                        How can we help you?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-8">
+
+                            <form class="form-inline search-form" [formGroup]="searchForm" (ngSubmit)="clickSearch()" autocomplete="off">
+                                <div class="form-group" style="width:100%">
+                                    <input type="search" class="form-control-plaintext" [class.open]="openSearch" placeholder="Ask question here.." [formControl]="searchForm.controls['searchText']" class="form-control-plaintext" />
+                                    <span class="d-sm-none mobile-search" (click)="clickSearch()">
+              </span>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row justify-content-center">
+                        <div class="col-sm-10">
+                            <ngb-accordion [closeOthers]="true">
+                                <ngb-panel id="static-1">
+                                    <ng-template ngbPanelTitle>
+                                        <i class="icon-angle-right"></i>&nbsp;&nbsp; Documents, Sections, Smart Contracts
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <div class="list-group">
+                                            <a class="list-group-item list-group-item-action" (click)="showAnswer()">How to create Documents?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add sections to documents?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to create Documents?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add sections to documents?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add sections to documents?</a
+                      >
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-2">
+                  <ng-template ngbPanelTitle>
+                    <i class="icon-angle-right"></i>&nbsp;&nbsp; About Plans &
+                    Payments
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="list-group">
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >Benfits of Premium Plans ?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >Can I use Paypal ?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How secure is my card information?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to pay for a complete organization</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >What are the plans?</a
+                      >
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+                <ngb-panel id="static-3">
+                  <ng-template ngbPanelTitle>
+                    <i class="icon-angle-right"></i>&nbsp;&nbsp; Collaborators &
+                    Security
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    <div class="list-group">
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add collaborators?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add collaborators?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add collaborators?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add collaborators?</a
+                      >
+                      <a
+                        class="list-group-item list-group-item-action"
+                        href="javascript:void(0)"
+                        >How to add collaborators?</a
+                      >
+                    </div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Main Help Page Ends here -->
+
+<div class="container" [hidden]="questiondiv">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+         <h5>
+              How to create Documents?
+              <a (click)="goback()" class="btn-link pull-right"
+                ><i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a
+              >
+            </h5>
+        </div>
+        <div class="card-body">
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+.myheaderProfile{
+    padding: 10px;
+    background: #f1f1f1;
+}
+
+.fontWight{
+    font-weight: 500;
+}
+
+.myinputCls{
+    height: 30px;
+}
+
+.btnCls{
+    background: #058a6b !important;
+    height: 30px;
+    line-height: 17px;
+}
+.business-card .txt-right{
+    float:right;
+   
+}
+
+.profile{
+    min-height:405px;
+}
+
+@media screen and (max-width: 768px) {
+.container-fluid{
+  width:95% !important;
+}
+}

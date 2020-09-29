@@ -1,0 +1,71 @@
+<div class="card preview-card">
+    <div *ngIf="this.tfa.secret">
+        <div class="card-header">
+            <h4>Current Settings</h4>
+        </div>
+        <div class="card-body overflow-auto" style="max-height: 500px; text-align: center;">
+            <img [src]="tfa.dataURL" alt="" class="img-thumbnail" style="display: block; margin: auto;" />
+
+            <p>Secret Key - {{ tfa.secret || tfa.tempSecret }}</p>
+
+            <p>Auth Type - Time Based - OTP</p>
+
+            <button class="btn btn-outline-primary">
+        Disable TFA
+      </button>
+        </div>
+    </div>
+
+
+    <div *ngIf="!this.tfa.secret">
+        <div class="card-header">
+            <h4>Setup MultiFactor Authenticator</h4>
+        </div>
+        <div class="card-body overflow-auto" style="max-height: 500px; text-align: center;">
+            <span *ngIf="!!tfa.tempSecret">
+        <p>Scan the QR code or enter the secret key in MultiFactor Authenticator</p>
+
+        <img
+          [src]="tfa.dataURL"
+          alt=""
+          class="img-thumbnail"
+          style="display: block; margin: auto;"
+        />
+
+        <p>Secret Key - {{ tfa.tempSecret }}</p>
+
+        <p>Auth Type - Time Based - OTP</p>
+
+        <form
+          class="form-group"
+          class="theme-form needs-validation"
+          novalidate
+          (ngSubmit)="onSubmit()"
+        >
+          <input
+            
+            type="text"
+            id="authcode"
+            class="form-control"
+            name="authcode"
+            autocomplete="off"
+            [formControl]="validationForm.controls['authcode']"
+            placeholder="Two-Factor Auth code"
+            title="Please enter the code"
+            required
+          />
+          <br />
+          <button
+            type="Submit"
+            class="btn btn-primary"
+          >
+            Enable TFA
+          </button>
+        </form>
+        <p class="text-danger" style="text-align: center;" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </p>
+      </span>
+        </div>
+    </div>
+</div>

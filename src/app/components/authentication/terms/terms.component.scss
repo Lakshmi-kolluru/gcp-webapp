@@ -1,0 +1,29 @@
+.comment-box {
+  padding: 20px 0;
+}
+
+.overflow-auto {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+img {
+  margin-top: 0;
+  height: 50px;
+}
+
+.image-dark {
+  font-size: 35px;
+  margin: 0;
+  margin-left: 2rem;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  /* padding: 0.75rem 1rem; */
+  /* margin-bottom: 1rem; */
+  list-style: none;
+  background-color: #e9ecef;
+  border-radius: 0.25rem;
+}

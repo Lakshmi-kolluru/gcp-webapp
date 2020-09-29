@@ -1,0 +1,69 @@
+.alignR {
+  text-align: end;
+}
+
+.nobg {
+  background-color: none;
+  border: none;
+}
+
+.db-storage {
+  width: 50%;
+  background-color: #0072be !important;
+  color: #fff;
+}
+
+.txtColor {
+  color: black;
+}
+
+.list-group.active {
+  .txtColor {
+    color: white;
+  }
+}
+
+.nav-item .active {
+  font-weight: bold;
+  color: #fff !important;
+}
+
+.switch-state {
+  margin-left: 0 !important;
+}
+
+.pricing-wrapper-card {
+  padding: 1% !important;
+}
+
+.card-price {
+  margin: 1% !important;
+}
+
+.pricing-wrapper-card .card-action button {
+  padding: 0;
+}
+
+.pricing-wrapper-card .pricing-card .card-price h1,
+.pricing-wrapper-card .pricing-card.popular .card-price h1 {
+  font-size: 2em;
+}
+
+.pricing-wrapper-card .card-title h5 {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    width: 95% !important;
+  }
+}
+
+td span {
+  font-size: 10px;
+}
+
+.alert-info {
+  background-color: rgba(0, 114, 190, 0.1) !important;
+  border-color: rgba(0, 114, 190, 0.1) !important;
+}

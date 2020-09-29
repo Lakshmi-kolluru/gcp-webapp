@@ -1,0 +1,278 @@
+<app-component-loader *ngIf="!singleSectionData"></app-component-loader>
+
+<!-- Container-fluid Starts -->
+<div class="container-fluid" id="pageStarts" *ngIf="singleSectionData">
+    <!-- Page Header Starts -->
+    <div [class]="commentsSelected.length ? 'col-md-10' : 'col-md-12'">
+        <div class="row">
+            <div class="col-lg-5">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/mainPage"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Sections</li>
+                    <li class="breadcrumb-item active">Preview</li>
+                </ol>
+                <h3>&nbsp;</h3>
+            </div>
+            <div class="col-lg-7" *ngIf="singleSectionData">
+                <span class="pull-right warnmessage" *ngIf="
+            (singleSectionData.accesslevel === 'coowner' ||
+              singleSectionData.accesslevel === 'approveEdit' ||
+              singleSectionData.accesslevel === 'edit' ||
+              singleSectionData.accesslevel === 'owner') &&
+            hideEditButton &&
+            !(collaboratorStatus === 'Approved')
+          ">
+          Can't edit, approved by one or more users.
+        </span>
+                <span class="pull-right warnmessage" *ngIf="collaboratorStatus === 'Approved'">
+          Section Approval Completed.
+        </span>
+                <span class="pull-right warnmessage" *ngIf="collaboratorStatus === 'Rejected'">
+          Section has been Rejected.
+        </span>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header Ends -->
+    <div class="row">
+        <!-- Section Starts -->
+        <div [class]="commentsSelected.length ? 'col-md-10' : 'col-md-12'" id="pageStart2">
+            <form [formGroup]="sectionForm">
+                <div class="card">
+                    <div class="page-header card-header" id="card-headerr">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3>
+                                    {{ singleSectionData?.sec_title }}
+                                    <span class="accesslevel" *ngIf="singleSectionData?.access" [innerHtml]="singleSectionData?.access">
+                  </span>
+                                </h3>
+                            </div>
+                            <div class="col-md">
+                                <a (click)="back()" class="btn-link pull-right">
+                                    <i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" id="content-body">
+                        <div class="row">
+                            <!-- Section Title -->
+                            <div class="col-md-5 mb-3">
+                                <label for="title" class="textbold">Title</label>
+                                <input type="text" class="form-control" placeholder="{{ singleSectionData.sec_title }}" [formControl]="sectionForm.controls['sec_title']" [readonly]="!editTitle" />
+                            </div>
+                            <!-- Security -->
+                            <div class="col-md-3 mb-3" *ngIf="singleSectionData?.security_level">
+                                <label for="security_level" class="textbold">Security</label>
+                                <select class="form-control digits" id="exampleFormControlSelect9" [formControl]="sectionForm.controls['security_level']" *ngIf="editTitle">
+                  <option>Select Security level</option>
+                  <option *ngFor="let level of securityLevels">
+                    {{ level.name }}
+                  </option>
+                </select>
+                                <input type="text" class="form-control" placeholder="Security" [formControl]="sectionForm.controls['security_level']" readonly *ngIf="!editTitle" />
+                            </div>
+                            <!-- Visiblity -->
+                            <div class="col-md-3 mb-4">
+                                <label for="visiblity" class="textbold">Visiblity</label>
+                                <div class="border" *ngIf="!editTitle">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" [checked]="sectionForm.controls['isPrivate'].value" disabled />
+                                        <label class="custom-control-label" for="customSwitches">{{
+                      singleSectionData && singleSectionData.isPrivate
+                        ? "Private"
+                        : "Public"
+                    }}</label>
+                                    </div>
+                                </div>
+                                <label class="switch" *ngIf="editTitle">
+                  <span class="toggle-label" style="width: 50%; float: left"
+                    ><p *ngIf="sectionForm.value.isPrivate">Private</p>
+                    <p *ngIf="!sectionForm.value.isPrivate">Public</p>
+                  </span>
+                  <div
+                    class="toggle-box custom-switches"
+                    style="width: 50%; float: right"
+                  >
+                    <ui-switch
+                      id="visible"
+                      [(ngModel)]="sectionForm.value.isPrivate"
+                      [formControl]="sectionForm.controls['isPrivate']"
+                    ></ui-switch>
+                  </div>
+                </label>
+                            </div>
+                            <div class="col-md-1">
+                                <span style="float: right" *ngIf="
+                    singleSectionData?.accesslevel === 'coowner' ||
+                    singleSectionData?.accesslevel === 'owner'
+                  ">
+                  <i
+                    class="icon-pencil-alt txt-primary m-2"
+                    style="cursor: pointer; font-size: 18px; line-height: 5"
+                    *ngIf="!editTitle"
+                    title="Edit"
+                    (click)="editTitle = true"
+                  ></i>
+                </span>
+                                <span *ngIf="
+                    singleSectionData?.accesslevel === 'coowner' ||
+                    singleSectionData?.accesslevel === 'owner'
+                  ">
+                  <i
+                    class="icon-save txt-primary m-2"
+                    style="cursor: pointer; font-size: 18px; line-height: 5"
+                    *ngIf="editTitle"
+                    title="Edit"
+                    (click)="updateTitle()"
+                  ></i>
+                </span>
+                            </div>
+                        </div>
+
+                        <!-- Collaborators -->
+                        <div class="row mb-2">
+                            <!-- Collaborators -->
+                            <div class="col-md-12 mb-2">
+                                <h6 class="textbold">
+                                    <span *ngIf="singleSectionData?.collab_list?.length">Collaborators</span
+                  >
+                  <img
+                    class="pull-right"
+                    src="../../../../assets/fonts/user-add.png"
+                    alt="Manage Collaborators"
+                    width="21px"
+                    height="21px"
+                    style="cursor: pointer"
+                    title="Manage Collaborators"
+                    *ngIf="
+                      (singleSectionData?.accesslevel === 'owner' ||
+                        singleSectionData?.accesslevel === 'coowner') &&
+                      !singleSectionData.isPrivate
+                    "
+                    (click)="showCollobarators()"
+                  />
+
+                  <i
+                    class="icon-user txt-primary pull-right"
+                    title="Show Collaborators"
+                    *ngIf="
+                      !(
+                        singleSectionData?.accesslevel === 'owner' ||
+                        singleSectionData?.accesslevel === 'coowner'
+                      ) &&
+                      singleSectionData?.collab_list?.length &&
+                      !singleSectionData.isPrivate
+                    "
+                    (click)="showCollobarators()"
+                  ></i>
+                </h6>
+              </div>
+              <!-- Collaborators list -->
+              <div class="col-md-12">
+                <span
+                  class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400"
+                  *ngFor="let collaborator of singleSectionData?.collab_list"
+                >
+                  <span *ngIf="collaborator?.user?.first_name">
+                    {{ collaborator?.user?.first_name }}&nbsp;&nbsp;{{
+                      collaborator?.user?.last_name
+                    }}
+                  </span>
+                                    </span>
+
+                                    <span class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400" *ngFor="
+                    let collaborator of singleSectionData?.unregisteredUsers
+                  ">
+                  <span>
+                    {{ collaborator.email }}
+                  </span>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <!-- highlights the comment word -->
+                        <p *ngFor="let comment of commentsSelected" [style.top.px]="comment.top" [style.width.px]="comment.width" [style.height.px]="comment.height" [style.left.px]="comment.left" data-toggle="tooltip" title="Click to Open Comment"></p>
+
+                        <!-- Content -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="my-0 mb-3 textbold">
+                                    <span>Content</span>
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <i class="icon-pencil-alt txt-primary m-2" style="cursor: pointer; float: right !important" *ngIf="
+                    (singleSectionData?.accesslevel === 'coowner' ||
+                      singleSectionData?.accesslevel === 'approveEdit' ||
+                      singleSectionData?.accesslevel === 'edit' ||
+                      singleSectionData?.accesslevel === 'owner') &&
+                    !isEditable &&
+                    !hideEditButton
+                  " title="Edit" (click)="isEditable = true"></i>
+                            </div>
+
+                            <div class="col-md-12 mr-3 mb-4">
+                                <p *ngIf="!isEditable" #linkRef (click)="renderRectangle($event, singleSectionData)" [innerHtml]="singleSectionData.sec_content | safeHtml"></p>
+
+                                <ckeditor *ngIf="isEditable && !editTitle" [config]="editorConfig" [formControl]="sectionForm.controls['sec_content']" [editor]="Editor">
+                                </ckeditor>
+                            </div>
+
+                            <!-- Approve/Reject/Update Button -->
+                            <div class="mb-1 col-md-12">
+                                <button class="btn btn-primary btn-sm pull-right m-1" type="button" *ngIf="isEditable && !editTitle" (click)="isEditable = false">
+                  Reset
+                </button>
+
+                                <button class="btn btn-primary btn-sm pull-right m-1" type="button" *ngIf="isEditable && !editTitle" (click)="updateSection(sectionForm)">
+                  Update
+                </button>
+
+                                <button class="btn btn-primary btn-sm pull-right m-1" type="button" *ngIf="
+                    (singleSectionData?.accesslevel == 'approve' ||
+                      singleSectionData?.accesslevel == 'approveEdit') &&
+                    !(
+                      collaboratorStatus === 'Approved' ||
+                      collaboratorStatus === 'Rejected'
+                    )
+                  " (click)="sectionApproval('Reject')">
+                  Reject
+                </button>
+
+                                <button class="btn btn-primary btn-sm pull-right m-1" type="button" *ngIf="
+                    singleSectionData?.accesslevel == 'approve' ||
+                    (singleSectionData?.accesslevel == 'approveEdit' &&
+                      !(
+                        collaboratorStatus === 'Approved' ||
+                        collaboratorStatus === 'Rejected'
+                      ))
+                  " (click)="sectionApproval('Approve')">
+                  Approve
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Section Ends -->
+
+        <!-- Comment Starts -->
+        <div class="col-md-2 d-none d-sm-none d-md-block uncol">
+            <div *ngFor="let comment of commentsSelected; let index = index">
+                <span *ngIf="!comment.showCommentBox && index == 0" class="iconcss">
+          <i class="icon-comments btn-link comment-link"></i>
+        </span>
+
+                <app-comments [comment]="comment" (closeSelectedComment)="closeComment(comment)" [sectionData]="sendSectionData">
+                </app-comments>
+            </div>
+        </div>
+        <!-- Comment Ends -->
+    </div>
+</div>
+<!-- Container-fluid Ends  -->

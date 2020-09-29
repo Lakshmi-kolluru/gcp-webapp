@@ -1,0 +1,187 @@
+<div class="container-fluid">
+  <!--login page start-->
+  <div class="authentication-main">
+    <div class="row">
+      <!--     <div class="col-md-4 p-0">
+                <div class="auth-innerleft">
+                    <div class="text-center">
+                        <p class="img-fluid security-icon vesta-header txt-primary">
+                            Vesta
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+      <div class="col-md-12 p-0">
+        <div class="auth-innerright">
+          <div class="authentication-box">
+            <p style="text-align: center">
+              <img
+                class="img-fluid security-icon vesta-header txt-primary"
+                src="../../../../assets/icons/logo.png"
+              />
+            </p>
+            <h4>LOGIN</h4>
+            <h6>Enter your Email and Password for Login or Signup</h6>
+            <div class="card mt-4 p-4 mb-0">
+              <form
+                class="theme-form needs-validation"
+                novalidate
+                (ngSubmit)="onSubmit()"
+              >
+                <div class="form-group">
+                  <label class="col-form-label pt-0">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    required
+                    id="validationCustom01"
+                    [formControl]="validationForm.controls['email']"
+                  />
+                  <div
+                    *ngIf="
+                      validationForm.controls.email.touched &&
+                      validationForm.controls.email.errors?.required
+                    "
+                    class="text text-danger"
+                  >
+                    Email is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      validationForm.controls.email.touched &&
+                      validationForm.controls.email.errors?.pattern
+                    "
+                    class="text text-danger"
+                  >
+                    Email ID must be like test@domain.com.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" style="width: 100%"
+                    >Password <sup class="txt-danger">*</sup>
+                    <div
+                      ngbDropdown
+                      #myDrop="ngbDropdown"
+                      class="d-inline-block"
+                      style="float: right"
+                    >
+                      <a class="btn-link" id="dropdownBasic1" ngbDropdownToggle>
+                        <i class="icon-help"></i>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <h5>
+                          Password Rules
+                          <a
+                            style="font-size: 13px"
+                            class="btn-link pull-right"
+                            (click)="$event.stopPropagation(); myDrop.close()"
+                            ><i class="icon-close"></i>
+                          </a>
+                        </h5>
+                        <ul class="passList" style="list-style-type: circle">
+                          <li>
+                            Your password has to be at least 8 - 64 characters
+                            long.
+                          </li>
+                          <li>
+                            Must contain at least
+                            <ul class="sub-list">
+                              <li>one lower case letter,</li>
+                              <li>one upper case letter,</li>
+                              <li>one digit,</li>
+                              <li>
+                                and one of these special characters
+                                ~!@#$%^&*()_+
+                              </li>
+                            </ul>
+                          </li>
+
+                          <li>Can contain space also</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <a style="float:right;" (click)="passwordRules()"> <i class="icon-help"></i> </a> --></label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    required
+                    id="validationCustom02"
+                    [formControl]="validationForm.controls['password']"
+                  />
+                  <div
+                    *ngIf="
+                      validationForm.controls.password.touched &&
+                      validationForm.controls.password.errors?.required
+                    "
+                    class="text text-danger"
+                  >
+                    Password is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      validationForm.controls.password.touched &&
+                      validationForm.controls.password.errors?.pattern
+                    "
+                    class="text text-danger"
+                  >
+                    Password must be atleast 8 characters long with 1 Capital
+                    case, 1 Small case and a Special Character
+                  </div>
+                </div>
+                <div class="form-row" style="padding-left: 2px">
+                  <div class="col-sm-3">
+                    <div class="checkbox p-0">
+                      <input id="checkbox1" type="checkbox" />
+                      <label for="checkbox1">Remember me</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="text-right mt-2 m-l-20">
+                      <a
+                        routerLink="forgotPassword"
+                        class="btn-link text-capitalize"
+                        >Forgot Password ?</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group form-row mt-3 mb-0">
+                  <div class="col-md-3">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      [disabled]="!validationForm.valid"
+                    >
+                      LOGIN
+                    </button>
+                    <!-- routerLink="mainPage" -->
+                  </div>
+                </div>
+              </form>
+              <hr />
+              <div class="social-media" align="center">
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    Signin with&nbsp;&nbsp;
+                    <button class="btn btn-danger" (click)="signInGoogle()">
+                      Google
+                    </button>
+                  </li>
+                  <li class="list-inline-item">|</li>
+                  <li class="list-inline-item">
+                    &nbsp;&nbsp;
+                    <a class="btn-link text-capitalize" routerLink="register"
+                      >SignUp</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--login page end-->
+</div>

@@ -1,0 +1,9 @@
+.section-button {
+  line-height: 1.5;
+  float: right;
+  font-size: 12px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.close:focus {outline:0 !important;}

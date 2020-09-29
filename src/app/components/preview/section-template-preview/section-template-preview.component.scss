@@ -1,0 +1,26 @@
+.maxheight {
+    max-height: 13rem;
+    overflow: auto;
+}
+
+.textbold {
+    font-weight: 600;
+}
+
+.border {
+    background-color: #e9ecef;
+    box-sizing: content-box;
+    padding: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.switch {
+    display: block;
+}
+
+@media screen and (max-width: 768px) {
+    .container-fluid {
+        width: 95% !important;
+    }
+}

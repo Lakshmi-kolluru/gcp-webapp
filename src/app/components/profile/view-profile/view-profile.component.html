@@ -1,0 +1,384 @@
+<!-- Container starts -->
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="'/mainPage'"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Profile</li>
+                    <li class="breadcrumb-item active">View Profile</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="edit-profile">
+        <div class="row" *ngIf="profile">
+            <!--Profile Info-->
+            <div class="col-lg-4">
+                <div class="card profile">
+                    <div class="card-header">
+                        <h5>My Profile</h5>
+                        <div class="card-options">
+                            <a href="javascript:void(0)" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i
+              ></a>
+                            <a href="javascript:void(0)" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i
+              ></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row mb-2">
+                                <div class="col-auto">
+                                    <!--   <img class="img-70 rounded-circle" alt="" src="assets/images/user/11.png" /> -->
+                                </div>
+                                <div class="col">
+                                    <h5 class="mb-1">{{ profile.first_name }}</h5>
+                                    <p class="mb-4">{{ profile.email_id }}</p>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="business-card card-body">
+                            <p>
+                                Company Name :
+                                <span class="txt-right">{{ profile.organization_name }}</span>
+                            </p>
+                            <p>
+                                Subscribed Date :
+                                <span class="txt-right"> 20 May, 2020</span>
+                            </p>
+
+                            <p>
+                                Valid Till :
+                                <span class="txt-right">19 May, 2021</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Edit Profile-->
+            <div class="col-lg-8">
+                <form class="card profile" [hidden]="diabledEdit">
+                    <div class="card-header">
+                        <h5>Edit Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control" value="{{ profile.first_name }}" [disabled]="enableEditForm" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" value="{{ profile.last_name }}" [disabled]="enableEditForm" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="text" class="form-control" value="{{ profile.email_id }}" [disabled]="enableEditForm" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" value="{{ profile.phone_number }}" [disabled]="enableEditForm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="button" class="btn btn-primary" (click)="enable()">
+              Edit
+            </button>
+                    </div>
+                </form>
+
+                <form [hidden]="editForm" class="card profile theme-form needs-validation" novalidate [formGroup]="resetProfileForm" (ngSubmit)="resetProfile()">
+                    <div class="card-header">
+                        <h5>Edit Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">First Name </label>
+                                    <input type="text" class="form-control sectionTitle" value="{{ profile.first_name }}" id="validationCustom05 " [formControl]="resetProfileForm.controls['first_name']" required />
+                                    <div *ngIf="
+                      resetProfileForm.controls.first_name.touched &&
+                      resetProfileForm.controls.first_name.errors?.pattern
+                    " class="text text-danger">
+                                        Name can contain only alphabets
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Last Name </label>
+                                    <input type="text " class="form-control sectionTitle" value="{{ profile.last_name }} " id="validationCustom05 " [formControl]="resetProfileForm.controls['last_name']" required />
+                                    <div *ngIf="
+                      resetProfileForm.controls.last_name.touched &&
+                      resetProfileForm.controls.last_name.errors?.pattern
+                    " class="text text-danger">
+                                        Name can contain only alphabets
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Email ID</label>
+                                    <input type="text " class="form-control sectionTitle" value="{{ profile.email_id }} " id="validationCustom05 " [formControl]="resetProfileForm.controls['email_id']" required />
+                                    <div *ngIf="
+                      resetProfileForm.controls.email_id.touched &&
+                      resetProfileForm.controls.email_id.errors?.pattern
+                    " class="text text-danger">
+                                        Email should be like test@domain.com
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="col-form-label">Phone Number</label>
+                                    <input type="text " class="form-control sectionTitle" value="{{ profile.phone_number }} " id="validationCustom05 " [formControl]="resetProfileForm.controls['phone_number']" required />
+                                    <div *ngIf="
+                      resetProfileForm.controls.phone_number.touched &&
+                      resetProfileForm.controls.phone_number.errors?.pattern
+                    " class="text text-danger">
+                                        Invalid Phone Number
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-right">
+                        <button type="submit " class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+            <!--Edit Password-->
+            <div class="col-lg-12">
+                <div class="card">
+                    <form class="theme-form needs-validation" novalidate [formGroup]="resetPasswordForm">
+                        <div class="card-header">
+                            <h5>
+                                Account Security
+                                <button *ngIf="!profile.isMFAEnabled" type="submit " class="btn btn-outline-primary" style="float: right" (click)="enableMFA()">
+                  Enable MFA
+                </button>
+                                <button *ngIf="profile.isMFAEnabled" type="submit " class="btn btn-outline-primary" style="float: right" (click)="disableMFA()">
+                  Disable MFA
+                </button>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Password
+                      <a
+                        class="btn-link"
+                        (click)="
+                          x.type = x.type == 'password' ? 'text' : 'password'
+                        "
+                      >
+                        <i class="icon-eye"></i
+                      ></a>
+                    </label>
+                                        <input #x type="password" class="form-control sectionTitle" placeholder="*****" id="validationCustom05" [formControl]="resetPasswordForm.controls['password']" required />
+
+                                        <div *ngIf="
+                        resetPasswordForm.controls.password.touched &&
+                        resetPasswordForm.controls.password.errors?.required
+                      " class="text text-danger">
+                                            Password is required.
+                                        </div>
+                                        <div *ngIf="
+                        resetPasswordForm.controls.password.touched &&
+                        resetPasswordForm.controls.password.errors?.pattern
+                      " class="text text-danger">
+                                            Password must be atleast 8 characters long with 1 Capital case, 1 Small case and a Special Character
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="*****" required id="validationCustom02" [formControl]="resetPasswordForm.controls['password1']" />
+                                        <div *ngIf="
+                        resetPasswordForm.controls.password1.touched &&
+                        resetPasswordForm.controls.password1.errors?.required
+                      " class="text text-danger">
+                                            Password is required.
+                                        </div>
+                                        <!--   <div
+                      *ngIf="
+                        resetPasswordForm.controls.password1.touched &&
+                        resetPasswordForm.controls.password1 !==
+                          resetPasswordForm.controls.password
+                      "
+                      class="text text-danger"
+                    >
+                      Passwords do not match.
+                    </div> -->
+                                        <div *ngIf="
+                        resetPasswordForm.controls.password1.touched &&
+                        resetPasswordForm.controls.password1.errors?.pattern
+                      " class="text text-danger">
+                                            Password must be atleast 8 characters long with 1 Capital case, 1 Small case and a Special Character
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <div class="col-sm-12 col-md-12" [hidden]="hideResetForm">
+                                    <div class="form-group">
+                                        <label class="form-label">{{
+                      profile.security_quest1
+                    }}</label>
+                                        <input type="password" class="form-control" placeholder="" [formControl]="resetPasswordForm.controls['securityAns']" required />
+                                        <div *ngIf="
+                        resetPasswordForm.controls.securityAns.touched &&
+                        resetPasswordForm.controls.securityAns.errors?.required
+                      " class="text text-danger">
+                                            Answer is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-right" [hidden]="hideResetForm">
+                            <button type="submit" class="btn btn-primary" (click)="resetPassword()">
+                Update
+              </button>
+                        </div>
+                    </form>
+                    <div class="card-footer text-right" [hidden]="hideResetButton">
+                        <button type="button" class="btn btn-primary" (click)="enableReset()">
+              Reset Password
+            </button>
+                    </div>
+                </div>
+            </div>
+            <!--Reset Security Que-->
+            <div class="col-lg-12">
+                <div class="card">
+                    <form class="theme-form needs-validation" novalidate [formGroup]="resetSecurityForm" (ngSubmit)="resetSecurityQues()">
+                        <div class="card-header">
+                            <h5>Reset Security Questions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="col-form-label">Security Question 1 </label>
+                                <div class="form-row">
+                                    <div class="col-sm-8">
+                                        <select class="form-control mb-1" [formControl]="
+                        resetSecurityForm.controls['security_quest1']
+                      " formControlName="security_quest1">
+                      <option default disabled>
+                        {{ profile.security_quest1 }}
+                      </option>
+                      <option
+                        *ngFor="let question of questions"
+                        [ngValue]="question.name"
+                        [hidden]="
+                          profile.security_quest1 === question.name ||
+                          resetSecurityForm.controls['security_quest2']
+                            .value === question.name
+                        "
+                      >
+                        {{ question.name }}
+                      </option>
+                    </select>
+                                        <div *ngIf="
+                        resetSecurityForm.controls.security_quest1.touched &&
+                        resetSecurityForm.controls.security_quest1.errors
+                          ?.required
+                      " class="text text-danger">
+                                            Select a Security Question.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" value="{{ profile.quest1_ans }}" [formControl]="resetSecurityForm.controls['quest1_ans']" required />
+                                        <div *ngIf="
+                        resetSecurityForm.controls.quest1_ans.touched &&
+                        resetSecurityForm.controls.quest1_ans.errors?.required
+                      " class="text text-danger">
+                                            Answer is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Security Question 2 </label>
+                                <div class="form-row">
+                                    <div class="col-sm-8">
+                                        <select class="form-control mb-1" [formControl]="
+                        resetSecurityForm.controls['security_quest2']
+                      ">
+                      <option default disabled>
+                        {{ profile.security_quest2 }}
+                      </option>
+                      <option
+                        *ngFor="let question of questions"
+                        [ngValue]="question.name"
+                        [hidden]="
+                          profile.security_quest2 === question.name ||
+                          resetSecurityForm.controls['security_quest1']
+                            .value === question.name
+                        "
+                      >
+                        {{ question.name }}
+                      </option>
+                    </select>
+                                        <div *ngIf="
+                        resetSecurityForm.controls.security_quest2.touched &&
+                        resetSecurityForm.controls.security_quest2.errors
+                          ?.required
+                      " class="text text-danger">
+                                            Select a Security Question.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" value="{{ profile.quest2_ans }}" [formControl]="resetSecurityForm.controls['quest2_ans']" required />
+                                        <div *ngIf="
+                        resetSecurityForm.controls.quest2_ans.touched &&
+                        resetSecurityForm.controls.quest2_ans.errors?.required
+                      " class="text text-danger">
+                                            Answer is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-right">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Close Account-->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Close Account</h5>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="button " class="btn btn-primary" (click)="closeAccount()">
+              Close Account
+            </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- container ends -->

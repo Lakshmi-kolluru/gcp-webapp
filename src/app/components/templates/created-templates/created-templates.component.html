@@ -1,0 +1,312 @@
+<app-component-loader *ngIf="isLoading"></app-component-loader>
+
+<!-- Container starts -->
+<div class="container" *ngIf="!isLoading">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/mainPage"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Templates</li>
+                    <li class="breadcrumb-item active">Created by me</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- GRID AND LIST ICON -->
+    <div class="float-right">
+        <button class="btn btn-primary btn-sm document-buttonsml-1 m-1" [matMenuTriggerFor]="menu" type="button">
+      View
+    </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="gridView = false; listView = true; fullGridView = false">
+        <i class="fa fa-table pr-1 pb-1 fontsize"></i>
+        <span>Table View</span>
+      </button>
+            <button mat-menu-item (click)="gridView = true; listView = false; fullGridView = false">
+        <i class="fa fa-th pr-1 pb-1 fontsize"></i>
+        <span>Grid View</span>
+      </button>
+            <button mat-menu-item (click)="gridView = false; listView = false; fullGridView = true">
+        <i class="fa fa-list pr-1 pb-1 fontsize"></i>
+        <span>Full Grid View</span>
+      </button>
+        </mat-menu>
+    </div>
+
+    <ngb-tabset>
+        <ngb-tab *ngFor="let tab of tabs" title="{{ tab.name }}">
+            <ng-template ngbTabContent>
+                <div class="row">
+                    <!-- Table View Starts -->
+                    <div class="col-sm-12" *ngIf="listView">
+                        <div class="card col-sm-12" *ngIf="!tab.content?.length">
+                            <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)">
+                                {{ tab.settings.noDataMessage }}
+                            </div>
+                        </div>
+                        <div class="card" *ngIf="tab.content?.length">
+                            <div class="card-body smart-datatable">
+                                <div class="table-responsive">
+                                    <ng2-smart-table [settings]="tab.settings" [source]="tab.content" (custom)="customAction($event, tab.name)"></ng2-smart-table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Table View Ends -->
+
+                    <!-- Grid View Starts -->
+                    <ng-container *ngIf="gridView">
+                        <!-- no Data Avaliable Message Starts-->
+                        <div class="card col-sm-12" *ngIf="!tab.content?.length">
+                            <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)">
+                                {{ tab.settings.noDataMessage }}
+                            </div>
+                        </div>
+                        <!-- no Data Avaliable Message Ends-->
+
+                        <!-- Grid Content Starts -->
+                        <div class="col-sm-3 col-md-3 col-lg-3" *ngFor="
+                let element of tab.content
+                  | slice
+                    : (page - 1) * pageSize
+                    : (page - 1) * pageSize + pageSize
+              ">
+                            <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{ element: element }" #menuTrigger="matMenuTrigger" [style.left]="element.left" [style.top]="element.top" style="position: fixed"></span>
+
+                            <div class="card w-100" (contextmenu)="openMenufolder($event, menuTrigger, element)">
+                                <div>
+                                    <span class="mt-2">{{ element.status | titlecase }}</span>
+                                    <span class="mt-2 mr-2 pull-right" style="
+                      cursor: pointer;
+                      font-size: 12px;
+                      transform: rotate(90deg);
+                    " (click)="openMenufolder($event, menuTrigger, element)">
+                    <i class="icon-more-alt" title="Click Here"></i>
+                  </span>
+                                </div>
+
+                                <div align="center" class="p-3 bugoflowh" [title]="
+                    element.doc_template_title
+                      ? element.doc_template_title
+                      : element.template_title
+                      ? element.template_title
+                      : ''
+                  ">
+                                    <i class="icon-file image" *ngIf="tab.name === 'Documents'"></i>
+                                    <i class="icon-files image" *ngIf="tab.name === 'Sections'"></i>
+                                    <i class="icon-medall image" *ngIf="tab.name === 'Smart Contracts'"></i> &nbsp;&nbsp;
+                                    <span align="center" class="docname" (click)="preview(element.id, tab.name)">
+                    {{
+                      element.doc_template_title
+                        ? element.doc_template_title
+                        : element.template_title
+                        ? element.template_title
+                        : ""
+                    }}
+                  </span>
+                                </div>
+
+                                <div class="card-footer footer text-center">
+                                    <button class="btn btn-theme float-left" type="button" *ngIf="element.security_level">
+                    <i class="icon-key txt-primary"></i>&nbsp;&nbsp;{{
+                      element.security_level
+                    }}
+                  </button>
+                                    <button class="btn btn-theme" type="button">
+                    <i
+                      class="icon-lock txt-primary"
+                      *ngIf="element.isPrivate"
+                    ></i>
+                    <i
+                      class="icon-unlock txt-primary"
+                      *ngIf="!element.isPrivate"
+                    ></i>
+                    &nbsp;&nbsp;{{ element.isPrivate ? "Private" : "Public" }}
+                  </button>
+                                    <button class="btn btn-theme float-right" type="button" *ngIf="element?.collab_list">
+                    <i class="icon-user txt-primary"></i>&nbsp;&nbsp;
+                    {{ element?.collab_list?.length }}
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Grid Content Ends -->
+
+                        <!-- Menu Starts -->
+                        <mat-menu #rootMenu="matMenu">
+                            <ng-template matMenuContent let-element="element">
+                                <button mat-menu-item (click)="
+                    customAction({ action: 'preview', data: element }, tab.name)
+                  ">
+                  <i class="icon-eye txt-primary" title="Preview"></i
+                  >&nbsp;&nbsp;
+                  <span>Preview</span>
+                </button>
+                                <button mat-menu-item>
+                  <i class="icon-export txt-primary" title="Export"></i
+                  >&nbsp;&nbsp;
+                  <span>Export</span>
+                </button>
+                                <button mat-menu-item (click)="
+                    customAction({ action: 'delete', data: element }, tab.name)
+                  ">
+                  <i class="icon-trash txt-primary" title="Delete"></i
+                  >&nbsp;&nbsp;
+                  <span>Delete</span>
+                </button>
+                            </ng-template>
+                        </mat-menu>
+                        <!-- Menu Ends -->
+
+                        <!-- Pagination Starts -->
+                        <div class="col-sm-12 col-md-12 col-lg-12 mb-5" *ngIf="tab.content?.length">
+                            <ngb-pagination [collectionSize]="tab.content.length" [(page)]="page" [pageSize]="pageSize">
+                            </ngb-pagination>
+                        </div>
+                        <!-- Pagination Ends -->
+                    </ng-container>
+                    <!-- Grid View Ends -->
+
+                    <!-- Full Title View Starts -->
+                    <ng-container *ngIf="fullGridView">
+                        <!-- no Data Avaliable Message Starts-->
+                        <div class="card col-sm-12" *ngIf="!tab.content?.length">
+                            <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)">
+                                {{ tab.settings.noDataMessage }}
+                            </div>
+                        </div>
+                        <!-- no Data Avaliable Message Ends-->
+
+                        <div class="card col-sm-12" *ngFor="
+                let element of tab.content
+                  | slice
+                    : (page - 1) * pageSize
+                    : (page - 1) * pageSize + pageSize
+              ">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-header">
+                                        <h5>
+                                            <a class="btn-link" (click)="preview(element.id, tab.name)">{{
+                          element.doc_template_title
+                            ? element.doc_template_title
+                            : element.template_title
+                        }}</a
+                      >
+                    </h5>
+                  </div>
+
+                  <ul class="icon-lists navs-icon">
+                    <li
+                      class="onhover-dropdown navs-dropdown"
+                      *ngIf="element?.collab_list"
+                    >
+                      <a class="btn-link" href="javascript:void(0)">
+                        <i
+                          class="icon-user txt-primary"
+                          title="Collaborators"
+                        ></i>
+                        <span> {{ element?.collab_list?.length }}</span>
+                      </a>
+                                            </li>
+                                            <li *ngIf="element.sections_list">
+                                                <a class="cursorChange" href="javascript:void(0)"><i class="icon-files txt-primary" title="Sections"></i
+                        ><span> {{ element.sections_list?.length }}</span></a
+                      >
+                    </li>
+                    <li *ngIf="element.edits">
+                      <a class="cursorChange" href="javascript:void(0)"
+                        ><i
+                          class="icon-pencil-alt txt-primary"
+                          title="Edits"
+                        ></i
+                        ><span> {{ element.edits || "0" }}</span></a
+                      >
+                    </li>
+                    <li *ngIf="element.security_level">
+                      <a class="cursorChange" href="javascript:void(0)"
+                        ><i
+                          class="icon-key txt-primary"
+                          title="Security Level"
+                        ></i
+                        ><span> {{ element.security_level }}</span></a
+                      >
+                    </li>
+                    <li>
+                      <a class="cursorChange" href="javascript:void(0)">
+                        <i
+                          class="icon-lock txt-primary"
+                          *ngIf="element.isPrivate"
+                        ></i>
+                        <i
+                          class="icon-unlock txt-primary"
+                          *ngIf="!element.isPrivate"
+                        ></i>
+                        <span>{{
+                          element.isPrivate ? "Private" : "Public"
+                        }}</span></a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <p class="doucmentStatus text-alert">
+                    <sub> {{ element.status }} </sub>
+                  </p>
+
+                  <div class="card-body button-body">
+                    <div class="profile-dropdown">
+                      <p class="document-buttons">
+                        <a
+                          [routerLink]="
+                            element.doc_template_title
+                              ? '/mainPage/preview/documentTemplate'
+                              : '/mainPage/preview/sectionTemplate'
+                          "
+                          [queryParams]="{ name: element.id }"
+                        >
+                          <i class="icon-eye"></i>
+                          <p>Preview</p>
+                        </a>
+                                                </p>
+                                                <p class="document-buttons">
+                                                    <a href="javascript:void(0)">
+                                                        <i class="icon-export"></i>
+                                                        <p>Export</p>
+                                                    </a>
+                                                </p>
+                                                <p class="document-buttons">
+                                                    <a href="javascript:void(0)" (click)="
+                            customAction(
+                              { action: 'delete', data: element },
+                              tab.name
+                            )
+                          ">
+                                                        <i class="icon-trash"></i>
+                                                        <p>Delete</p>
+                                                    </a>
+                                                </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Pagination Starts -->
+                <div class="col-sm-12 col-md-12 col-lg-12 mb-5" *ngIf="tab.content?.length">
+                    <ngb-pagination [collectionSize]="tab.content.length" [(page)]="page" [pageSize]="pageSize">
+                    </ngb-pagination>
+                </div>
+                <!-- Pagination Ends -->
+                </ng-container>
+                <!-- Full Title View Ends -->
+</div>
+</ng-template>
+</ngb-tab>
+</ngb-tabset>
+</div>
+<!-- Container Ends -->

@@ -1,0 +1,451 @@
+<app-component-loader *ngIf="!singleDocumentData"></app-component-loader>
+
+<!-- Container-fluid Starts -->
+<div class="container-fluid mb-4" id="pageStarts" *ngIf="singleDocumentData && commentsSelected">
+    <!-- Page Header Starts -->
+    <div [class]="commentsSelected.length ? 'col-md-10' : 'col-md-12'">
+        <div class="row">
+            <div class="col-lg-5">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/mainPage"><i class="fa fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Documents</li>
+                    <li class="breadcrumb-item active">Preview</li>
+                </ol>
+                <h3>&nbsp;</h3>
+            </div>
+            <div class="col-lg-7" *ngIf="singleDocumentData">
+                <span class="pull-right warnmessage" *ngIf="
+            (singleDocumentData.accesslevel === 'owner' ||
+              singleDocumentData.accesslevel === 'coowner' ||
+              singleDocumentData.accesslevel === 'approveEdit' ||
+              singleDocumentData.accesslevel === 'edit') &&
+            hideEditButton &&
+            !singleDocumentData.isPrivate
+          ">
+          Can't edit, approved by one or more users.
+        </span>
+                <span class="pull-right warnmessage" *ngIf="collaboratorStatus === 'Approved'">
+          Document Approval Completed.
+        </span>
+                <span class="pull-right warnmessage" *ngIf="collaboratorStatus === 'Rejected'">
+          Document has been Rejected.
+        </span>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header Ends -->
+
+    <div class="row" *ngIf="singleDocumentData">
+        <!-- Document Content Starts -->
+        <div [class]="commentsSelected.length ? 'col-md-10' : 'col-md-12'" id="pageStart2">
+            <!-- Card  -->
+            <div class="card" id="docCard">
+                <div class="page-header card-header" id="card-headerr">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3>
+                                <span class="mr-4">{{ singleDocumentData.doc_title }}</span>
+                                <span class="accesslevel" *ngIf="singleDocumentData.access" [innerHtml]="singleDocumentData?.access">
+                </span>
+                            </h3>
+                        </div>
+                        <div class="col-md-4">
+                            <a (click)="back()" class="btn-link pull-right">
+                                <i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="documentForm">
+                        <div class="row">
+                            <div class="col-md-5 mb-3">
+                                <label for="title" class="textbold">Title</label>
+                                <input type="text" class="form-control" placeholder="{{ singleDocumentData.doc_title }}" [value]="singleDocumentData?.doc_title" [formControl]="documentForm.controls['doc_title']" [readonly]="!isEditable || !editTitle" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="security_level" class="textbold">Security</label>
+                                <select class="form-control digits" id="exampleFormControlSelect1" [formControl]="documentForm.controls['security_level']" *ngIf="isEditable && editTitle">
+                  <option>Select Security Level</option>
+                  <option *ngFor="let level of securityLevels">
+                    {{ level.name }}
+                  </option>
+                </select>
+
+                                <input type="text" class="form-control" placeholder="Security" [value]="singleDocumentData.security_level" readonly *ngIf="!isEditable || !editTitle" />
+                            </div>
+
+                            <div class="col-md-3 mb-4">
+                                <label for="visiblity" class="textbold">Visiblity</label>
+                                <div class="border" *ngIf="!editTitle">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" [checked]="documentForm.controls['isPrivate'].value" disabled />
+                                        <label class="custom-control-label" for="customSwitches">{{
+                      singleDocumentData && singleDocumentData.isPrivate
+                        ? "Private"
+                        : "Public"
+                    }}</label>
+                                    </div>
+                                </div>
+                                <label class="switch" *ngIf="editTitle">
+                  <span class="toggle-label" style="width: 50%; float: left"
+                    ><p *ngIf="documentForm.value.isPrivate">Private</p>
+                    <p *ngIf="!documentForm.value.isPrivate">Public</p>
+                  </span>
+                  <div
+                    class="toggle-box custom-switches"
+                    style="width: 50%; float: right"
+                  >
+                    <ui-switch
+                      id="visible"
+                      [(ngModel)]="documentForm.value.isPrivate"
+                      [formControl]="documentForm.controls['isPrivate']"
+                    ></ui-switch>
+                  </div>
+                </label>
+                            </div>
+
+                            <div class="col-md-1">
+                                <span *ngIf="
+                    singleDocumentData.accesslevel === 'owner' ||
+                    singleDocumentData.accesslevel === 'coowner'
+                  ">
+                  <i
+                    class="icon-pencil-alt txt-primary m-2"
+                    style="cursor: pointer; font-size: 18px; line-height: 5"
+                    *ngIf="!isEditable || !editTitle"
+                    title="Edit"
+                    (click)="isEditable = true; editTitle = true"
+                  ></i>
+                </span>
+                                <span *ngIf="
+                    singleDocumentData.accesslevel === 'owner' ||
+                    singleDocumentData.accesslevel === 'coowner'
+                  ">
+                  <i
+                    class="icon-save txt-primary m-2"
+                    style="cursor: pointer; font-size: 18px; line-height: 5"
+                    *ngIf="isEditable || editTitle"
+                    title="Save"
+                    (click)="updateTitle()"
+                  ></i>
+                </span>
+                            </div>
+                        </div>
+                        <!-- Collaborators -->
+                        <div class="row mb-2">
+                            <!-- Collaborators -->
+                            <div class="col-md-12 mb-2">
+                                <h6 class="textbold">
+                                    <span *ngIf="collab_list && collab_list.length">Collaborators</span
+                  >
+                  <img
+                    class="pull-right"
+                    src="../../../../assets/fonts/user-add.png"
+                    alt="Manage Collaborators"
+                    width="21px"
+                    height="21px"
+                    style="cursor: pointer"
+                    title="Manage Collaborators"
+                    *ngIf="
+                      (singleDocumentData?.accesslevel === 'owner' ||
+                        singleDocumentData?.accesslevel === 'coowner') &&
+                      !singleDocumentData.isPrivate
+                    "
+                    (click)="showCollobarators()"
+                  />
+
+                  <i
+                    class="icon-user txt-primary pull-right"
+                    title="Show Collaborators"
+                    *ngIf="
+                      !(
+                        singleDocumentData?.accesslevel === 'owner' ||
+                        singleDocumentData?.accesslevel === 'coowner'
+                      ) && !singleDocumentData.isPrivate
+                    "
+                    (click)="showCollobarators()"
+                  ></i>
+                </h6>
+              </div>
+              <!-- Collaborators list -->
+              <div class="col-md-12" *ngIf="collab_list && collab_list.length">
+                <span
+                  class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400"
+                  *ngFor="let collaborator of collab_list"
+                >
+                  <span *ngIf="collaborator?.user?.first_name">
+                    {{ collaborator?.user?.first_name }}&nbsp;&nbsp;{{
+                      collaborator?.user?.last_name
+                    }}
+                  </span>
+                                    <span *ngIf="!collaborator.user">
+                    {{ collaborator?.emailId }}
+                  </span>
+                                    </span>
+
+                                    <span class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400" *ngFor="
+                    let collaborator of singleDocumentData?.unregisteredUsers
+                  ">
+                  <span>
+                    {{ collaborator.email }}
+                  </span>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="row" *ngIf="singleDocumentData?.sections_list.length">
+                            <div class="col-md-6">
+                                <h6 class="my-0 mb-3 textbold">Content&nbsp;&nbsp;</h6>
+                            </div>
+
+                            <!-- Expand / Collapse All -->
+                            <div class="col-md-6">
+                                <a href="javascript:void(0)" class="pull-right" *ngIf="!hideExpand" (click)="acc.expandAll(); hideExpand = true">Expand All</a
+                >
+                <a
+                  href="javascript:void(0)"
+                  class="pull-right"
+                  *ngIf="hideExpand"
+                  (click)="acc.collapseAll(); hideExpand = false"
+                  >Collapse All</a
+                >
+              </div>
+
+              <!-- Highlists the commented word -->
+              <ng-container *ngFor="let comment of commentsSelected">
+                <div
+                  [style.top.px]="comment.top"
+                  [style.width.px]="comment.width"
+                  *ngIf="!comment.hide"
+                  [style.height.px]="comment.height"
+                  [style.left.px]="comment.left"
+                  class="commentcss"
+                  (click)="commentOnClick(comment)"
+                ></div>
+              </ng-container>
+
+              <!-- Section content -->
+              <div class="col-md-12 mr-3 mb-4" formArrayName="sectionDetails">
+                <ngb-accordion
+                  #acc="ngbAccordion"
+                  (panelChange)="panelChange($event)"
+                >
+                  <ngb-panel
+                    [id]="section.id"
+                    *ngFor="
+                      let section of singleDocumentData?.sections_list;
+                      let i = index
+                    "
+                  >
+                    <ng-template ngbPanelHeader>
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <button ngbPanelToggle class="btn btn-link p-0">
+                          <i
+                            class="icon-lock txt-primary m-1"
+                            title="Private"
+                            *ngIf="section.isPrivate"
+                          ></i>
+                          <i
+                            class="icon-unlock txt-primary m-1"
+                            title="Public"
+                            *ngIf="!section.isPrivate"
+                          ></i>
+                          {{ section.sec_title }}
+                        </button>
+                        <button class="btn btn-link p-0">
+                          <i
+                            class="icon-pencil-alt txt-primary"
+                            style="cursor: pointer"
+                            *ngIf="
+                              (singleDocumentData.accesslevel === 'coowner' ||
+                                singleDocumentData.accesslevel ===
+                                  'approveEdit' ||
+                                singleDocumentData.accesslevel === 'edit' ||
+                                singleDocumentData.accesslevel === 'owner') &&
+                              !hideEditButton
+                            "
+                            title="Edit {{ section.sec_title }}"
+                            (click)="
+                              acc.expand(section.id);
+                              section.isEditable = true;
+                              getSection()
+                            "
+                          ></i>
+                        </button>
+                      </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                      <!-- Section Collaborators Starts -->
+                      <div class="row mb-2">
+                        <!-- Section Collaborators Heading -->
+                        <div class="col-md-12 mb-2">
+                          <h6 class="textbold">
+                            <span
+                              *ngIf="
+                                section.collab_list &&
+                                section.collab_list.length
+                              "
+                              >Collaborators</span
+                            >
+                            <img
+                              class="pull-right"
+                              src="../../../../assets/fonts/user-add.png"
+                              alt="Manage Collaborators"
+                              width="21px"
+                              height="21px"
+                              style="cursor: pointer"
+                              title="Manage Collaborators"
+                              *ngIf="
+                                (singleDocumentData?.accesslevel === 'owner' ||
+                                  singleDocumentData?.accesslevel ===
+                                    'coowner') &&
+                                !singleDocumentData.isPrivate
+                              "
+                              (click)="showCollobaratorsBySection(section)"
+                            />
+
+                            <i
+                              class="icon-user txt-primary pull-right"
+                              title="Show Collaborators"
+                              *ngIf="
+                                !(
+                                  singleDocumentData?.accesslevel === 'owner' ||
+                                  singleDocumentData?.accesslevel === 'coowner'
+                                ) && !singleDocumentData.isPrivate
+                              "
+                              (click)="showCollobaratorsBySection(section)"
+                            ></i>
+                          </h6>
+                        </div>
+
+                        <!-- Collaborators list -->
+                        <div
+                          class="col-md-12"
+                          *ngIf="
+                            section.collab_list && section.collab_list.length
+                          "
+                        >
+                          <span
+                            class="mb-3 mr-2 badge badge-pill badge-light f-14 f-w-400"
+                            *ngFor="let collaborator of section.collab_list"
+                          >
+                            <span *ngIf="collaborator?.user?.first_name">
+                              {{ collaborator?.user?.first_name }}&nbsp;&nbsp;{{
+                                collaborator?.user?.last_name
+                              }}
+                            </span>
+                            <span *ngIf="!collaborator.user">
+                              {{ collaborator?.emailId }}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                      <!-- Section Collaborators Ends -->
+
+                      <div [formGroupName]="i" *ngIf="section.isEditable">
+                        <ckeditor
+                          [config]="editorConfig"
+                          formControlName="sec_content"
+                          [editor]="Editor"
+                        >
+                        </ckeditor>
+                      </div>
+
+                      <p
+                        #linkRef
+                        (click)="renderRectangle($event, i, section)"
+                        [innerHtml]="section.sec_content | safeHtml"
+                        *ngIf="!section.isEditable"
+                      ></p>
+                    </ng-template>
+                  </ngb-panel>
+                </ngb-accordion>
+              </div>
+            </div>
+
+            <!-- Approve/Reject/Update Button -->
+            <div class="row">
+              <div class="mb-1 col-md-12">
+                <button
+                  class="btn btn-primary btn-sm document-buttonsml-1 pull-right m-1"
+                  type="button"
+                  *ngIf="isEditable && !editTitle"
+                  (click)="cancelEdit()"
+                >
+                  Reset
+                </button>
+
+                <button
+                  class="btn btn-primary btn-sm document-buttonsml-1 pull-right m-1"
+                  type="button"
+                  *ngIf="isEditable && !editTitle"
+                  (click)="updateDocument(documentForm)"
+                >
+                  Update
+                </button>
+
+                <button
+                  class="btn btn-primary btn-sm document-buttonsml-1 pull-right m-1"
+                  type="button"
+                  *ngIf="
+                    (singleDocumentData?.accesslevel == 'approve' ||
+                      singleDocumentData?.accesslevel == 'approveEdit') &&
+                    !(
+                      collaboratorStatus === 'Approved' ||
+                      collaboratorStatus === 'Rejected'
+                    )
+                  "
+                  (click)="documentApproval('Reject')"
+                >
+                  Reject
+                </button>
+
+                <button
+                  class="btn btn-primary btn-sm document-buttonsml-1 pull-right m-1"
+                  type="button"
+                  *ngIf="
+                    (singleDocumentData?.accesslevel == 'approve' ||
+                      singleDocumentData?.accesslevel == 'approveEdit') &&
+                    !(
+                      collaboratorStatus === 'Approved' ||
+                      collaboratorStatus === 'Rejected'
+                    )
+                  "
+                  (click)="documentApproval('Approve')"
+                >
+                  Approve
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Document Contnent Ends -->
+
+    <!-- Comment Starts -->
+    <div class="col-md-2 d-none d-sm-none d-md-block uncol">
+      <div *ngFor="let comment of commentsSelected; let index = index">
+        <span *ngIf="!comment.showCommentBox && index == 0" class="iconcss">
+          <i class="icon-comments btn-link comment-link"></i>
+        </span>
+
+        <app-comments
+          [comment]="comment"
+          [index]="index"
+          (closeSelectedComment)="closeComment(comment, $event)"
+          [sectionData]="singleDocumentData?.sections_list"
+        >
+        </app-comments>
+      </div>
+    </div>
+    <!-- Comment Ends -->
+  </div>
+</div>
+<!-- Container-fluid Ends -->

@@ -1,0 +1,19 @@
+<div class="card preview-card">
+    <div *ngIf="!this.tfa.secret">
+        <div class="card-header">
+            <h4>Enter MutliFactor Authenticator OTP</h4>
+        </div>
+        <div class="card-body overflow-auto" style="max-height: 500px; text-align: center;">
+            <form class="form-group" class="theme-form needs-validation" novalidate (ngSubmit)="onSubmit()">
+                <input type="text" id="authcode" class="form-control" name="authcode" autocomplete="off" [formControl]="validationForm.controls['authcode']" placeholder="Two-Factor Auth code" title="Please enter the code" required />
+                <br />
+                <button type="Submit" class="btn btn-primary">
+          Verify
+        </button>
+            </form>
+            <p class="text-danger" style="text-align: center;" *ngIf="errorMessage">
+                {{ errorMessage }}
+            </p>
+        </div>
+    </div>
+</div>

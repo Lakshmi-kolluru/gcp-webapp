@@ -1,0 +1,22 @@
+.mainH {
+  color: #0072be;
+}
+
+.markasread {
+  margin-top: 40px;
+  padding-left: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    width: 95% !important;
+  }
+}
+
+.color-read {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.text-read {
+  color: #333 !important;
+}

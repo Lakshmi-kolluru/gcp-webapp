@@ -1,0 +1,94 @@
+th {
+  width: 150px;
+}
+
+.widget-joins .media .details {
+  border: none;
+}
+
+.media-icons {
+  padding-left: 10%;
+}
+
+.icon-lists li {
+  display: inline-block;
+  margin: 2%;
+}
+
+.card-header {
+  padding: 20px;
+}
+
+.icon-lists a span {
+  text-transform: capitalize;
+}
+
+.navs-icon {
+  padding: 10px;
+}
+
+.navs-icon li {
+  padding: 0;
+}
+
+.button-body {
+  padding: 30px 0;
+}
+
+.profile-dropdown {
+  text-align: center;
+}
+
+.profile-dropdown .document-buttons {
+  display: inline-block;
+  margin: 2%;
+  text-align: center;
+}
+
+.document-buttons i {
+  font-size: 16px;
+}
+
+.document-buttons a:hover {
+  color: #ab8ce4;
+}
+
+.doucmentStatus {
+  text-align: right;
+  padding-top: 2%;
+  padding-right: 3%;
+  margin-bottom: 0;
+}
+
+.border-widgets .card-footer {
+  padding: 0;
+  text-align: center;
+}
+
+.border-widgets .card-footer p span {
+  font-size: 12px;
+  color: #777 !important;
+}
+
+.border-widgets .card-footer p {
+  color: #0072be;
+}
+
+.ribbon-right {
+  right: 2% !important;
+  font-size: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    width: 95% !important;
+  }
+}
+
+.cursorChange {
+  cursor: default !important;
+}
+
+h5 a {
+  color: black;
+}

@@ -1,0 +1,211 @@
+<!--Page Header Start-->
+<div class="page-main-header">
+    <div class="main-header-left">
+        <div class="logo-wrapper">
+            <a routerLink="/mainPage/dashboard">
+                <p class="image-dark">
+                    <img src="../../../assets/icons/logo.png" />
+                </p>
+            </a>
+        </div>
+    </div>
+    <div class="main-header-right row">
+        <div class="nav-right col">
+            <ul class="nav-menus" [class.open]="open">
+                <li>
+                    <form class="form-inline search-form" [formGroup]="searchForm" (ngSubmit)="clickSearch()" autocomplete="off">
+                        <div class="form-group">
+                            <label class="sr-only">Email</label>
+                            <input type="search" class="form-control-plaintext" [class.open]="openSearch" placeholder="Search.." [formControl]="searchForm.controls['searchText']" />
+                            <span class="d-sm-none mobile-search" (click)="clickSearch()">
+              </span>
+                        </div>
+                    </form>
+                </li>
+
+                <li class="onhover-dropdown mobile-menu">
+                    <a href="javascript:void(0)" class="txt-dark">
+                        <i class="icon-plus align-self-center pull-right mr-2" title="New"></i>
+                    </a>
+                    <ul class="profile-dropdown new-dropdown onhover-show-div p-20">
+                        <li>
+                            <a routerLink="new/document">
+                                <i class="icon-file"></i> Documents
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" routerLink="new/section">
+                                <i class="icon-align-left"></i> Sections
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="new/contract">
+                                <i class="icon-medall"></i> Smart Contracts
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="onhover-dropdown mobile-menu">
+                    <a href="javascript:void(0)" class="txt-dark">
+                        <i class="icon-briefcase align-self-center pull-right mr-2" title="Documents"></i>
+                    </a>
+                    <ul class="profile-dropdown onhover-show-div p-20" style="width: 220px">
+                        <li>
+                            <a href="javascript:void(0)" routerLink="documents/created">
+                                <i class="icon-user"></i> Created by me
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" routerLink="documents/collaborate">
+                                <i class="icon-rss-alt"></i> Shared with me
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="onhover-dropdown mobile-menu">
+                    <a href="javascript:void(0)" class="txt-dark">
+                        <i class="icon-bookmark-alt align-self-center pull-right mr-2" title="Templates"></i>
+                    </a>
+                    <ul class="profile-dropdown onhover-show-div p-20" style="width: 220px">
+                        <li>
+                            <a href="javascript:void(0)" routerLink="templates/created">
+                                <i class="icon-user"></i> Created by me
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" routerLink="templates/collaborate">
+                                <i class="icon-rss-alt"></i> Shared with me
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="mobile-menu">
+                    <a toggleFullscreen class="text-dark" routerLink="help">
+                        <i class="icon-help-alt align-self-center pull-right mr-2" title="Help"></i>
+                    </a>
+                </li>
+                <li class="onhover-dropdown">
+                    <a href="javascript:void(0)" class="txt-dark">
+                        <i class="icon-bell align-self-center pull-right mr-2"></i>
+                        <span class="badge badge-pill badge-primary notification" *ngIf="newNotifications?.length">{{ newNotifications?.length }}</span
+            >
+          </a>
+
+          <ul
+            class="notification-dropdown onhover-show-div"
+            *ngIf="newNotifications?.length > 0"
+          >
+            <li>
+              New Notifications
+              <span
+                class="badge badge-pill badge-secondary text-white text-uppercase pull-right"
+                >{{ newNotifications?.length }} New
+              </span>
+                </li>
+                <ul class="notification-list">
+                    <li *ngFor="let notify of newNotifications | slice: 0:5">
+                        <a routerLink="documents/notifications">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h6 class="mt-0">{{ notify.title }}</h6>
+                                    <p class="mb-0" style="width: 50%; float: left">
+                                        {{ notify.description | slice: 0:10 }}...
+                                    </p>
+                                    <p style="width: 50%; float: left">
+                                        <span><i class="icofont icofont-clock-time p-r-5"></i
+                          >{{ notify.createdAt | date: "short" }}</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <li>
+              <button
+                class="btn-outline-primary"
+                routerLink="profile/notifications"
+              >
+                Check all notifications
+              </button>
+            </li>
+          </ul>
+          <ul
+            class="notification-dropdown onhover-show-div"
+            *ngIf="notifications?.length == 0"
+          >
+            <li>No new Notifications</li>
+          </ul>
+        </li>
+        <li class="desktop-menu">
+          <a toggleFullscreen class="text-dark" (click)="authService.SignOut()">
+            <i
+              class="icon-power-off align-self-center pull-right mr-2"
+              title="Logout"
+            ></i>
+          </a>
+        </li>
+        <li class="onhover-dropdown mobile-menu">
+          <div class="media align-items-center">
+            <i class="align-self-center pull-right mr-2 icon-user"></i>
+            <div class="media-body">
+              <h6 class="m-0 txt-dark f-16">
+                My Account
+                <i class="fa fa-angle-down pull-right ml-2"></i>
+              </h6>
+            </div>
+          </div>
+          <ul class="profile-dropdown onhover-show-div p-20">
+            <li>
+              <a routerLink="profile/view">
+                <i class="icon-user"></i>
+                Edit Profile
+              </a>
+            </li>
+            <li>
+              <a routerLink="profile/notifications">
+                <i class="icon-email"></i>
+                Inbox
+              </a>
+            </li>
+            <li>
+              <a routerLink="profile/history">
+                <i class="icon-time"></i>
+                History
+              </a>
+            </li>
+            <li>
+              <a routerLink="profile/settings">
+                <i class="icon-settings"></i>
+                Settings
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="logout()">
+                <i class="icon-power-off"></i>
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="mobile-menu">
+          <a
+            toggleFullscreen
+            class="text-dark"
+            href="https://www.surveymonkey.com/r/LD2QNLC"
+            target="_blank"
+          >
+            <i
+              class="icon-comment-alt align-self-center pull-right mr-2"
+              title="Feedback"
+            ></i>
+          </a>
+        </li>
+      </ul>
+      <div class="d-lg-none mobile-toggle">
+        <i class="icon-more" (click)="openHeaderMenu()"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Page Header Ends-->

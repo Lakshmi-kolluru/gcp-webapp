@@ -1,0 +1,37 @@
+.btn-link {
+  font-size: 14px;
+  text-transform: capitalize;
+}
+.row {
+  align-content: center;
+  vertical-align: middle;
+}
+.search-form {
+  input {
+    height: 40px;
+    outline: none;
+    box-shadow: 1px 2px 4px #cccccc;
+  }
+  input:focus {
+    outline: none;
+    box-shadow: 1px 2px 4px #cccccc;
+  }
+  input:hover {
+    outline: none;
+    box-shadow: 1px 2px 4px #cccccc;
+  }
+}
+
+ngb-accordion /deep/ button[aria-expanded="true"] /deep/ i {
+  display: inline-block;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+@media screen and (max-width: 768px) {
+.container-fluid{
+  width:95% !important;
+}
+}

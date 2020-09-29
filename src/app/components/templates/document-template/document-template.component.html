@@ -1,0 +1,41 @@
+<div class="card preview-card" [hidden]="selectionDiv">
+  <div class="card-header"></div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="exampleFormControlSelect9">Select from Template </label
+      ><select
+        class="form-control digits"
+        id="exampleFormControlSelect9"
+        (change)="openDocPreview($event.target.value)"
+      >
+        <option>Select Any One</option>
+        <option *ngFor="let sampleDoc of documents" [value]="sampleDoc.id">
+          {{ sampleDoc.doc_template_title }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="card preview-card" [hidden]="preview">
+  <div class="card-header">
+    <h5>
+      {{ selectedDoc.doc_title }}
+      <a (click)="closeDocPreview()" class="btn-link pull-right"
+        ><i class="fa fa-angle-left"></i> &nbsp;&nbsp; Go Back</a
+      >
+    </h5>
+  </div>
+  <div class="card-body overflow-auto" style="max-height: 500px">
+    <div *ngFor="let section of selectedDoc.sections_template_list">
+      <h6 style="color: #0072be">{{ section.template_title }}</h6>
+      <div [innerHTML]="section.template_content"></div>
+      <br />
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary section-button" (click)="useTemplate()">
+      Use Template
+    </button>
+  </div>
+</div>

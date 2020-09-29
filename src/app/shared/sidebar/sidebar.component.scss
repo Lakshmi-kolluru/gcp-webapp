@@ -1,0 +1,28 @@
+.sidebar-menu > li {
+  padding: 10px 20px !important;
+}
+
+.sidebar-user {
+  box-shadow: none !important;
+  border-bottom: 1px #eeeeee !important;
+  background: none !important;
+}
+
+.page-wrapper
+  .page-body-wrapper
+  .page-sidebar
+  .sidebar-menu
+  li.active
+  a
+  .fa-angle-right {
+  transform: rotate(0deg) !important;
+}
+
+.user_details span {
+  font-size: 12px;
+  line-height: 2;
+  color: #777777;
+  text-align: center;
+  display: block;
+  margin-bottom: 0;
+}

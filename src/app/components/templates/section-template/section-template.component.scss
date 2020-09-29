@@ -1,0 +1,52 @@
+.preview-card {
+  margin: 0;
+}
+
+.btn-link {
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.multiselect-dropdown {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+ng-multiselect-dropdown
+  /deep/
+  .multiselect-dropdown
+  /deep/
+  .dropdown-btn
+  /deep/
+  .selected-item {
+  border: 1px solid #0072be !important;
+  background: #0072be !important;
+}
+
+ng-multiselect-dropdown
+  /deep/
+  .multiselect-item-checkbox
+  input[type="checkbox"]:checked
+  + div:before {
+  background: #0072be !important;
+}
+
+ng-multiselect-dropdown
+  /deep/
+  .multiselect-item-checkbox
+  input[type="checkbox"]
+  + div:before {
+  color: #0072be !important;
+  border: 2px solid #0072be !important;
+}

@@ -1,0 +1,437 @@
+<div class="container-fluid">
+    <!--sign up page start-->
+    <div class="authentication-main">
+        <div class="row">
+            <!--    <div class="col-md-4 p-0">
+                <div class="auth-innerleft">
+                    <div class="text-center">
+                        <p class="img-fluid security-icon vesta-header txt-primary">
+                            Vesta
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-12 p-0">
+                <div class="auth-innerright">
+                    <div class="authentication-box">
+                        <p style="text-align: center">
+                            <img class="img-fluid security-icon vesta-header txt-primary" src="../../../../assets/icons/logo.png" />
+                        </p>
+                        <h3 style="text-align: center">NEW REGISTRATION</h3>
+                        <div class="card mt-4 p-4">
+                            <form class="theme-form needs-validation" novalidate [formGroup]="validationForm" (ngSubmit)="onSubmit()">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">First Name <sup class="txt-danger">*</sup></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="validationCustom01"
+                        placeholder="First name"
+                        [formControl]="validationForm.controls['first_name']"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          validationForm.controls.first_name.touched &&
+                          validationForm.controls.first_name.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        First Name is required.
+                      </div>
+                      <!--   <div
+                        *ngIf="
+                          validationForm.controls.first_name.touched &&
+                          validationForm.controls.first_name.errors?.pattern
+                        "
+                        class="text text-danger"
+                      >
+                        First Name must be an alphabates.
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="col-form-label"
+                        >Last Name <sup class="txt-danger">*</sup></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="validationCustom02"
+                        placeholder="Last name"
+                        [formControl]="validationForm.controls['last_name']"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          validationForm.controls.last_name.touched &&
+                          validationForm.controls.last_name.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Last Name is required.
+                      </div>
+                      <!--   <div
+                        *ngIf="
+                          validationForm.controls.last_name.touched &&
+                          validationForm.controls.last_name.errors?.pattern
+                        "
+                        class="text text-danger"
+                      >
+                        Last Name must be an alphabates.
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-form-label" style="width: 100%"
+                    >Organization Name <sup class="txt-danger">*</sup>
+                  </label>
+                                            <input type="text" class="form-control sectionTitle" placeholder="Organization Name" id="validationCustom07" [formControl]="validationForm.controls['organization_name']" required />
+
+                                            <div *ngIf="
+                      validationForm.controls.organization_name.touched &&
+                      validationForm.controls.organization_name.errors?.required
+                    " class="text text-danger">
+                                                Organization Name is required.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Email <sup class="txt-danger">*</sup></label
+                      >
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="validationCustom03"
+                        placeholder="test@domain.com"
+                        [formControl]="validationForm.controls['email_id']"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          validationForm.controls.email_id.touched &&
+                          validationForm.controls.email_id.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Email is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          validationForm.controls.email_id.touched &&
+                          validationForm.controls.email_id.errors?.pattern
+                        "
+                        class="text text-danger"
+                      >
+                        Email must be like test@domain.com.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="col-form-label"
+                        >Phone Number <sup class="txt-danger">*</sup></label
+                      >
+                      <ngx-intl-tel-input
+                        [cssClass]="'form-control col-12'"
+                        [preferredCountries]="preferredCountries"
+                        [enableAutoCountrySelect]="false"
+                        [enablePlaceholder]="true"
+                        [searchCountryFlag]="true"
+                        [searchCountryField]="[
+                          SearchCountryField.Iso2,
+                          SearchCountryField.Name
+                        ]"
+                        [selectFirstCountry]="false"
+                        [selectedCountryISO]="CountryISO.UnitedStates"
+                        [maxLength]="15"
+                        [tooltipField]="TooltipLabel.Name"
+                        [phoneValidation]="true"
+                        [separateDialCode]="separateDialCode"
+                        name="phone_number"
+                        formControlName="phone_number"
+                      >
+                      </ngx-intl-tel-input>
+                      <div
+                        *ngIf="
+                          validationForm.controls.phone_number.touched &&
+                          validationForm.controls.phone_number.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Phone Number is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          validationForm.controls.phone_number.touched &&
+                          validationForm.controls.phone_number.errors?.pattern
+                        "
+                        class="text text-danger"
+                      >
+                        Invalid Phone Number
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" style="width: 100%"
+                    >Password <sup class="txt-danger">*</sup>
+                    <div
+                      ngbDropdown
+                      #myDrop="ngbDropdown"
+                      class="d-inline-block"
+                      style="float: right"
+                    >
+                      <a
+                        class="btn-link"
+                        mat-button
+                        [matMenuTriggerFor]="dropDownPassword"
+                      >
+                        <i class="icon-help"></i>
+                      </a>
+                      <mat-menu #dropDownPassword="matMenu">
+                        <div matMenuContent style="margin: 1rem">
+                          <h5>
+                            Password Rules
+                            <!-- <a
+                              style="font-size: 13px;"
+                              class="btn-link pull-right"
+                              (click)="$event.stopPropagation(); myDrop.close()"
+                              ><i class="icon-close"></i>
+                            </a> -->
+                          </h5>
+                          <ul class="passList" style="list-style-type: circle">
+                            <li>
+                              Your password must be at least 8 - 64 characters
+                              long.
+                            </li>
+                            <li>
+                              Must contain at least
+                              <ul class="sub-list">
+                                <li>One Lower Case Letter</li>
+                                <li>One Upper Case Letter</li>
+                                <li>One Digit</li>
+                                <li>One Special Character ~!@#$%^&*()_+</li>
+                              </ul>
+                            </li>
+
+                            <li>Can contain space also</li>
+                          </ul>
+                        </div>
+                      </mat-menu>
+                      <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        
+                      </div> -->
+                    </div>
+                    <!-- <a style="float:right;" (click)="passwordRules()"> <i class="icon-help"></i> </a> --></label
+                  >
+                  <input
+                    type="password"
+                    class="form-control sectionTitle"
+                    placeholder="*****"
+                    id="validationCustom05"
+                    [formControl]="validationForm.controls['password']"
+                    required
+                  />
+
+                  <div
+                    *ngIf="
+                      validationForm.controls.password.touched &&
+                      validationForm.controls.password.errors?.required
+                    "
+                    class="text text-danger"
+                  >
+                    Password is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      validationForm.controls.password.touched &&
+                      validationForm.controls.password.errors?.pattern
+                    "
+                    class="text text-danger"
+                  >
+                    Password must be atleast 8 characters long with 1 Capital
+                    case, 1 Small case and a Special Character
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label"
+                    >Security Question 1 <sup class="txt-danger">*</sup></label
+                  >
+                  <div class="form-row">
+                    <div class="col-sm-8">
+                      <select
+                        class="form-control mb-1"
+                        [formControl]="
+                          validationForm.controls['security_quest1']
+                        "
+                        formControlName="security_quest1"
+                        (change)="removeQue($event.target.value)"
+                      >
+                        <option value="null" disabled hidden>
+                          Select one question
+                        </option>
+
+                        <option
+                          *ngFor="let question of questions"
+                          [hidden]="
+                            validationForm.controls['security_quest2'].value ===
+                            question.name
+                          "
+                          [ngValue]="question.name"
+                        >
+                          {{ question.name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="
+                          validationForm.controls.security_quest1.touched &&
+                          validationForm.controls.security_quest1.errors
+                            ?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Select a Security Question.
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder=""
+                        [formControl]="validationForm.controls['quest1_ans']"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          validationForm.controls.quest1_ans.touched &&
+                          validationForm.controls.quest1_ans.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Answer is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label"
+                    >Security Question 2 <sup class="txt-danger">*</sup></label
+                  >
+                  <div class="form-row">
+                    <div class="col-sm-8">
+                      <select
+                        class="form-control mb-1"
+                        [formControl]="
+                          validationForm.controls['security_quest2']
+                        "
+                      >
+                        <option value="null" disabled hidden>
+                          Select one question
+                        </option>
+                        <option
+                          [hidden]="
+                            validationForm.controls['security_quest1'].value ===
+                            question.name
+                          "
+                          *ngFor="let question of questions"
+                          [ngValue]="question.name"
+                        >
+                          {{ question.name }}
+                        </option>
+                      </select>
+                      <div
+                        *ngIf="
+                          validationForm.controls.security_quest2.touched &&
+                          validationForm.controls.security_quest2.errors
+                            ?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Select a Security Question.
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder=""
+                        [formControl]="validationForm.controls['quest2_ans']"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          validationForm.controls.quest2_ans.touched &&
+                          validationForm.controls.quest2_ans.errors?.required
+                        "
+                        class="text text-danger"
+                      >
+                        Answer is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group m-t-15" style="padding-left: 2px">
+                  <div class="checkbox">
+                    <input
+                      checked=" "
+                      id="checkbox3"
+                      type="checkbox"
+                      required
+                      [formControl]="validationForm.controls['checkRules']"
+                    />
+                    <label for="checkbox3"
+                      >Agree to
+                      <a
+                        (click)="openConditions()"
+                        class="btn-link text-capitalize"
+                        >Terms and Conditions</a
+                      ></label
+                    >
+                    <div
+                      *ngIf="
+                        validationForm.controls.checkRules.touched &&
+                        validationForm.controls.checkRules.errors?.required
+                      "
+                      class="text text-danger"
+                    >
+                      Please accept our Terms and Conditions.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-sm-3">
+                    <button
+                      class="btn btn-primary"
+                      [disabled]="!validationForm.valid"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                  <div class="col-sm-9">
+                    <div class="text-right mt-2 m-l-20">
+                      Are you already user?&nbsp;&nbsp;<a
+                        routerLink="/"
+                        class="btn-link text-capitalize"
+                        >Login</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--sign up page Ends-->
+</div>

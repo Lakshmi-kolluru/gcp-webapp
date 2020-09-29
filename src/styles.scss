@@ -1,0 +1,169 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~ngx-ui-switch/ui-switch.component.scss";
+
+/* You can add global styles to this file, and also import other style files */
+
+.txt-primary {
+  color: #0072be !important;
+}
+
+.btn,
+a {
+  cursor: pointer !important;
+}
+
+.btn-primary:hover {
+  background-color: #0072be !important;
+}
+
+.page-wrapper .page-body-wrapper .page-body {
+  background: none !important;
+}
+
+.page-wrapper .container-fluid {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.vesta-header {
+  width: 25%;
+}
+
+.page-wrapper .page-body-wrapper.sidebar-icon {
+  display: block !important;
+}
+
+.authentication-main .auth-innerleft {
+  background: #fff !important;
+}
+
+.vesta-header {
+  font-size: 60px;
+}
+
+.alert-danger,
+.alert-success,
+.alert-warning,
+.alert-info {
+  background: none !important;
+  color: #777 !important;
+}
+
+.alert {
+  padding: 0.75rem 1.25rem !important;
+}
+
+.btn-link,
+.nav-tabs .nav-link {
+  color: #0072be !important;
+}
+
+.btn-link:hover {
+  text-decoration: none !important;
+  color: #ab8ce4 !important;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  color: #333 !important;
+}
+
+.header-link {
+  font-size: 14px !important;
+  float: right !important;
+  cursor: pointer;
+}
+
+.preview-blocked-text {
+  background-color: rgba(0, 97, 213, 0.2);
+}
+
+.section-button {
+  line-height: 1.5;
+  float: right;
+  font-size: 12px;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.toggle-box {
+  margin-left: 5%;
+}
+
+.toggle-label {
+  position: absolute;
+  left: -1rem;
+  top: 0;
+  margin: 0.45rem;
+}
+
+.switch-state {
+  margin-left: 50px;
+  width: 60px;
+}
+
+.switch {
+  width: 100%;
+  width: 100px !important;
+  margin-left: 10%;
+  border: none !important;
+}
+
+.switch.switch-medium {
+  width: 70px !important;
+}
+
+.custom-switches .switch.checked {
+  background: #007bff;
+}
+
+.custom-switches .switch {
+  background: #3f681c;
+}
+
+.doc-button {
+  margin-right: 1%;
+}
+
+@media screen and (max-width: 425px) {
+  .vesta-header {
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .btn {
+    margin: 1%;
+  }
+}
+
+.preview-card {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.breadcrumb {
+  background: none !important;
+}
+
+.sub-list {
+  padding-left: 15%;
+}
+
+.sub-list li {
+  list-style: square;
+}
+
+.comment-link {
+  font-size: 18px;
+}
+
+.switch input + .switch-state {
+  background-color: green;
+}

@@ -1,0 +1,377 @@
+<app-component-loader *ngIf="!(documents && sections)"></app-component-loader>
+
+<div class="container" *ngIf="documents && sections">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-6">
+                <ol class="breadcrumb pull-left">
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="'/dashboard/default'"><i class="fa fa-home"></i
+            ></a>
+                    </li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-xl-12">
+                <p *ngFor="let alert of newNotifications | slice: 0:5">
+                    <ngb-alert [type]="alert.notif_type" (close)="close(alert)">{{ alert.description }}
+                    </ngb-alert>
+                </p>
+            </div>
+            <div class="col-sm-12 col-xl-12">
+                <div class="card border-widgets">
+                    <div class="row m-0">
+                        <div class="col-xl-3 col-6 xs-width-100">
+                            <div class="crm-top-widget card-body">
+                                <div class="media">
+                                    <i class="icon-file font-primary align-self-center mr-3"></i>
+                                    <div class="media-body">
+                                        <span class="mt-0">Documents</span>
+                                        <!-- <h4 class="total-num counter" *ngIf="documents?.length" [CountTo]="documents.length" [from]="0" [duration]="2"></h4> -->
+                                        <h4 class="total-num counter">{{ documents.length }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="card-footer">
+                <p><span>used of</span> 100 <span>documents</span></p>
+              </div> -->
+                        </div>
+                        <div class="col-xl-3 col-6 xs-width-100">
+                            <div class="crm-top-widget card-body">
+                                <div class="media">
+                                    <i class="icon-bookmark font-secondary align-self-center mr-3"></i>
+                                    <div class="media-body">
+                                        <span class="mt-0">Templates</span>
+                                        <!-- <h4 class="total-num counter" [CountTo]="templateCount" [from]="0" [duration]="2"></h4> -->
+                                        <h4 class="total-num counter">
+                                            {{ docTemplate + secTemplate }}
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="card-footer">
+                <p><span>saved of</span> 20 <span>Templates</span></p>
+              </div> -->
+                        </div>
+                        <div class="col-xl-3 col-6 xs-width-100">
+                            <div class="crm-top-widget card-body padding">
+                                <div class="media">
+                                    <i class="icon-check-box font-success align-self-center mr-3"></i>
+                                    <div class="media-body">
+                                        <span class="mt-0">Tasks Done</span>
+                                        <h4 class="total-num counter" *ngIf="tasksDone" [CountTo]="0.0" [from]="0" [duration]="2"></h4>
+                                        <h4 class="total-num counter" *ngIf="!tasksDone">0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="card-footer">
+                <p>
+                  <span>done of&nbsp;</span><i class="icon-infinite txt-primary"></i>
+                  <span>&nbsp;documents</span>
+                </p>
+              </div> -->
+                        </div>
+                        <div class="col-xl-3 col-6 xs-width-100">
+                            <div class="crm-top-widget card-body">
+                                <div class="media">
+                                    <i class="icon-server font-info align-self-center mr-3"></i>
+                                    <div class="media-body">
+                                        <span class="mt-0">GB Used</span>
+                                        <h4 class="total-num counter" *ngIf="gbUsed" [CountTo]="0" [from]="-1" [duration]="2"></h4>
+                                        <h4 class="total-num counter" *ngIf="!gbUsed">0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="card-footer">
+                <p><span>used of</span> 60 <span>GB</span></p>
+              </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col.sm-12 col-xl-12 xl-100">
+                <br /><br />
+                <ngb-tabset [justify]="currentJustify">
+                    <ngb-tab *ngFor="let tab of tabs" title="{{ tab.name }}">
+                        <ng-template ngbTabContent>
+                            <div *ngIf="tab.name == 'Documents'">
+                                <div class="card" *ngIf="!(documents?.length > 0)">
+                                    <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)">
+                                        No Documents Found
+                                    </div>
+                                </div>
+                                <div class="card" *ngFor="
+                    let doc of documents | slice: 0:5;
+                    let i = index;
+                    let i = index
+                  ">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card-header">
+                                                <h5>
+                                                    <a routerLink="/mainPage/preview/document" [queryParams]="{ name: doc.id }">{{ doc.doc_title }}
+                          </a>
+                                                </h5>
+                                                <p>{{ doc.desp }}</p>
+                                            </div>
+                                            <ul class="icon-lists navs-icon">
+                                                <li>
+                                                    <a href="javascript:void(0)" class="cursorChange"><i class="icon-user txt-primary"></i
+                            ><span> {{ doc.collab_list?.length }}</span></a
+                          >
+                        </li>
+                        <li *ngIf="doc.sections_list">
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i
+                              class="icon-files txt-primary"
+                              title="Sections"
+                            ></i
+                            ><span> {{ doc.sections_list?.length }}</span></a
+                          >
+                        </li>
+                        <li *ngIf="doc.edits">
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i class="icon-pencil-alt txt-primary"></i
+                            ><span> {{ doc.edits || "0" }}</span></a
+                          >
+                        </li>
+                        <li *ngIf="doc.security_level">
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i class="icon-key txt-primary"></i
+                            ><span> {{ doc.security_level }}</span></a
+                          >
+                        </li>
+                        <li>
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i
+                              class="icon-lock txt-primary"
+                              *ngIf="doc.isPrivate == true"
+                            ></i>
+                            <i
+                              class="icon-unlock txt-primary"
+                              *ngIf="doc.isPrivate == false"
+                            ></i
+                            ><span *ngIf="doc.isPrivate == true">
+                              Private
+                            </span>
+                            <span *ngIf="doc.isPrivate == false"> Public </span>
+                          </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <p class="doucmentStatus text-alert">
+                                                <sub> {{ doc.taskStatus }} </sub>
+                                            </p>
+
+                                            <!--  <div class="card-body button-body">
+                      <div
+                        class="profile-dropdown"
+                        *ngIf="doc.taskStatus == 'Completed' || buttonDiv == i"
+                      > -->
+                                            <div class="card-body button-body">
+                                                <div class="profile-dropdown">
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="saveDocAsTemplate(doc)">
+                                                            <i class="icon-bookmark"></i>
+                                                            <p>Save as Template</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a routerLink="/mainPage/preview/document" [queryParams]="{ name: doc.id }">
+                                                            <i class="icon-eye"></i>
+                                                            <p>Preview</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="saveDocAsDuplicate(doc)">
+                                                            <i class="icon-files"></i>
+                                                            <p>Duplicate</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a href="javascript:void(0)" (click)="export(doc, 'Documents')">
+                                                            <i class="icon-export"></i>
+                                                            <p>Export</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a href="javascript:void(0)" (click)="viewHistory(doc, 'Documents')">
+                                                            <i class="icon-info-alt" title="View History"></i
+                              >&nbsp;&nbsp;
+                              <p>View History</p>
+                            </a>
+                          </p>
+                          <p class="document-buttons">
+                            <a class="btn-link" (click)="deleteDoc(doc.id)">
+                              <i class="icon-trash"></i>
+                                                            <p>Delete</p>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="profile-dropdown" *ngIf="doc.taskStatus == 'Awaiting Completion'">
+                                                    <button _ngcontent-kme-c49="" class="btn btn-outline-primary btn-sm document-buttons" type="button">
+                            Reject
+                          </button>
+                                                    <button _ngcontent-kme-c49="" class="btn btn-primary btn-sm document-buttons" type="button">
+                            Accept
+                          </button>
+                                                    <p class="document-buttons">
+                                                        <a href="javascript:void(0)" (click)="showButtons(i)">
+                                                            <i class="icon-more-alt"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="tab.name == 'Sections'">
+                                <div class="card">
+                                    <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)" *ngIf="!(sections?.length > 0)">
+                                        No Sections Found
+                                    </div>
+                                </div>
+                                <div class="card" *ngFor="let sec of sections | slice: 0:5; let i = index">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card-header">
+                                                <h5>
+                                                    <a routerLink="/mainPage/preview/section" [queryParams]="{ name: sec.id }">
+                            {{ sec.sec_title }}
+                          </a>
+                                                </h5>
+                                            </div>
+                                            <ul class="icon-lists navs-icon">
+                                                <li>
+                                                    <a class="cursorChange" href="javascript:void(0)"><i class="icon-user txt-primary"></i
+                            ><span>
+                              {{ sec.collab_list?.length || "0" }}</span
+                            ></a
+                          >
+                        </li>
+                        <li *ngIf="sec.edits">
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i class="icon-pencil-alt txt-primary"></i
+                            ><span> {{ sec.edits }}</span></a
+                          >
+                        </li>
+                        <li *ngIf="sec.security_level">
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i class="icon-key txt-primary"></i
+                            ><span> {{ sec.security_level }}</span></a
+                          >
+                        </li>
+                        <li>
+                          <a class="cursorChange" href="javascript:void(0)"
+                            ><i
+                              class="icon-lock txt-primary"
+                              *ngIf="sec.isPrivate == true"
+                            ></i>
+                            <i
+                              class="icon-unlock txt-primary"
+                              *ngIf="sec.isPrivate == false"
+                            ></i
+                            ><span *ngIf="sec.isPrivate == true">
+                              Private
+                            </span>
+                            <span *ngIf="sec.isPrivate == false"> Public </span>
+                          </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <p class="doucmentStatus text-alert">
+                                                <sub> {{ sec.taskStatus }} </sub>
+                                            </p>
+
+                                            <!--  <div class="card-body button-body">
+                      <div
+                        class="profile-dropdown"
+                        *ngIf="doc.taskStatus == 'Completed' || buttonDiv == i"
+                      > -->
+                                            <div class="card-body button-body">
+                                                <div class="profile-dropdown">
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="saveSectionAsTemplate(sec)">
+                                                            <i class="icon-bookmark"></i>
+                                                            <p>Save as Template</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a routerLink="/mainPage/preview/section" [queryParams]="{
+                                name: sec.id,
+                                page: 'dashboard'
+                              }">
+                                                            <i class="icon-eye"></i>
+                                                            <p>Preview</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="saveSectionAsDuplicate(sec)">
+                                                            <i class="icon-files"></i>
+                                                            <p>Duplicate</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a href="javascript:void(0)">
+                                                            <i class="icon-export" (click)="export(sec, 'Sections')"></i>
+                                                            <p>Export</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="viewHistory(sec, 'Sections')">
+                                                            <i class="icon-info-alt"></i>
+                                                            <p>View History</p>
+                                                        </a>
+                                                    </p>
+                                                    <p class="document-buttons">
+                                                        <a class="btn-link" (click)="deleteSection(sec.id)">
+                                                            <i class="icon-trash"></i>
+                                                            <p>Delete</p>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <div class="profile-dropdown" *ngIf="sec.taskStatus == 'Awaiting Completion'">
+                                                    <button _ngcontent-kme-c49="" class="btn btn-outline-primary btn-sm document-buttons" type="button">
+                            Reject
+                          </button>
+                                                    <button _ngcontent-kme-c49="" class="btn btn-primary btn-sm document-buttons" type="button">
+                            Accept
+                          </button>
+                                                    <p class="document-buttons">
+                                                        <a href="javascript:void(0)" (click)="showButtons(i)">
+                                                            <i class="icon-more-alt"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="tab.name == 'Smart Contracts'">
+                                <div class="card">
+                                    <div class="card-header" style="text-align: center; color: rgba(255, 83, 112, 0.9)">
+                                        Coming Soon
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div>
